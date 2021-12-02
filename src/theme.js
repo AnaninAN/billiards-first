@@ -1,0 +1,7 @@
+export const THEME = {
+  MAIN_COLOR: '#387832',
+  DANGER_COLOR: '#8f1034',
+  TEXT_COLOR: '#fff',
+  FONT_SIZE_INPUT: 20,
+  FONT_SIZE_TEXT: 18,
+}

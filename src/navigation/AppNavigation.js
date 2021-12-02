@@ -8,6 +8,7 @@ export const AppNavigation = () => {
   return (
     <NavigationContainer>
       <MainDrawer />
+      <StatusBar style="light" />
     </NavigationContainer>
   )
 }

@@ -9,17 +9,21 @@ import {
   TouchableWithoutFeedback,
   Button,
   ScrollView,
+  Dimensions,
 } from 'react-native'
 
+import { THEME } from '../theme'
+
 import { AppHeaderIcon } from '../components/AppHeaderIcon'
+import { AppButton } from '../components/ui/AppButton'
 
 export const CreateGameScreen = ({
   navigation: { setOptions, toggleDrawer },
 }) => {
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
-  const [number, setNumber] = useState('0')
-  const [balls, setBalls] = useState('0')
+  const [number, setNumber] = useState(null)
+  const [balls, setBalls] = useState(null)
 
   useLayoutEffect(() => {
     setOptions({
@@ -36,39 +40,41 @@ export const CreateGameScreen = ({
     <ScrollView>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.wrapper}>
-          <TextInput
-            style={styles.input}
-            onChangeText={setName}
-            value={name}
-            placeholder="Введите название игры"
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={setDesc}
-            value={desc}
-            placeholder="Введите описание"
-            multiline
-            numberOfLines={7}
-          />
-          <View style={styles.wrapRow}>
-            <Text style={styles.text}>Количество игр</Text>
-            <Text style={styles.text}>Количество шаров в игре</Text>
-          </View>
-          <View style={styles.wrapRow}>
+          <View>
             <TextInput
-              style={styles.inputNum}
-              onChangeText={setNumber}
-              value={number}
-              keyboardType="numeric"
+              style={styles.input}
+              onChangeText={setName}
+              value={name}
+              placeholder="Введите название игры"
             />
             <TextInput
-              style={styles.inputNum}
-              onChangeText={setBalls}
-              value={balls}
-              keyboardType="numeric"
+              style={styles.input}
+              onChangeText={setDesc}
+              value={desc}
+              placeholder="Введите описание"
+              multiline
+              numberOfLines={5}
             />
+            <View style={styles.wrapRow}>
+              <Text style={styles.text}>Количество игр</Text>
+              <Text style={styles.text}>Количество шаров в игре</Text>
+            </View>
+            <View style={styles.wrapRow}>
+              <TextInput
+                style={styles.inputNum}
+                onChangeText={setNumber}
+                value={number}
+                keyboardType="numeric"
+              />
+              <TextInput
+                style={styles.inputNum}
+                onChangeText={setBalls}
+                value={balls}
+                keyboardType="numeric"
+              />
+            </View>
           </View>
-          <Button title="Создать игру" onPress={() => console.log('Button!')} />
+          <AppButton>Создать игру</AppButton>
         </View>
       </TouchableWithoutFeedback>
     </ScrollView>
@@ -77,15 +83,17 @@ export const CreateGameScreen = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    padding: 20,
+    paddingHorizontal: 15,
+    height: Dimensions.get('window').height * 0.77,
+    justifyContent: 'space-between',
   },
   input: {
     padding: 10,
     borderBottomWidth: 1,
-    marginBottom: 20,
+    marginVertical: 10,
     textAlignVertical: 'top',
     fontFamily: 'play-regular',
-    fontSize: 25,
+    fontSize: THEME.FONT_SIZE_INPUT,
   },
   inputNum: {
     width: '30%',
@@ -94,17 +102,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlignVertical: 'top',
     fontFamily: 'play-regular',
-    fontSize: 25,
+    fontSize: THEME.FONT_SIZE_INPUT,
   },
   wrapRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
     marginBottom: 15,
   },
   text: {
     fontFamily: 'play-regular',
-    fontSize: 25,
-    width: '45%',
+    fontSize: THEME.FONT_SIZE_TEXT,
+    width: '35%',
     textAlign: 'center',
   },
 })

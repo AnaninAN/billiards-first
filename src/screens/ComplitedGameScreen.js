@@ -9,7 +9,7 @@ export const ComplitedGameScreen = ({
 }) => {
   useLayoutEffect(() => {
     setOptions({
-      title: 'Завершеные игры',
+      title: 'Завершенные игры',
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
           <Item title="Menu" iconName="menu" onPress={() => toggleDrawer()} />
