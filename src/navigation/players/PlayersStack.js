@@ -1,15 +1,15 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { AllGameScreen } from '../../screens/AllGameScreen'
+import { PlayersScreen } from '../../screens/PlayersScreen'
 import { screenOptions } from '../screenOptions'
 
 const Stack = createStackNavigator()
 
-export const AllStack = () => {
+export const PlayersStack = () => {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen name="AllGameScreen" component={AllGameScreen} />
+      <Stack.Screen name="PlayersScreen" component={PlayersScreen} />
     </Stack.Navigator>
   )
 }

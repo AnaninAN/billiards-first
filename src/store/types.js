@@ -1,2 +1,7 @@
-export const LOAD_GAME_TYPES = 'LOAD_GAME_TYPES'
-export const ADD_GAME_TYPE = 'ADD_GAME_TYPE'
+export const LOAD_TYPES_GAME = 'LOAD_TYPES_GAME'
+export const ADD_TYPE_GAME = 'ADD_TYPE_GAME'
+export const REMOVE_TYPE_GAME = 'REMOVE_TYPE_GAME'
+
+export const LOAD_PLAYERS = 'LOAD_PLAYERS'
+export const ADD_PLAYER = 'ADD_PLAYER'
+export const REMOVE_PLAYER = 'REMOVE_PLAYER'

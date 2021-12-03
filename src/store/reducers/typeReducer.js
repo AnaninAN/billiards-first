@@ -1,19 +1,23 @@
-import { ADD_GAME_TYPE, LOAD_GAME_TYPES } from '../types'
+import { ADD_TYPE_GAME, LOAD_TYPES_GAME, REMOVE_TYPE_GAME } from '../types'
 
 const initialState = {
-  gameTypes: [],
+  typesGame: [],
   loading: true,
 }
 
 const handlers = {
-  [LOAD_GAME_TYPES]: (state, { payload }) => ({
+  [LOAD_TYPES_GAME]: (state, { payload }) => ({
     ...state,
-    gameTypes: payload,
+    typesGame: payload,
     loading: false,
   }),
-  [ADD_GAME_TYPE]: (state, { payload }) => ({
+  [ADD_TYPE_GAME]: (state, { payload }) => ({
     ...state,
-    gameTypes: [{ ...payload }, ...state.gameTypes],
+    typesGame: [{ ...payload }, ...state.typesGame],
+  }),
+  [REMOVE_TYPE_GAME]: (state, { payload }) => ({
+    ...state,
+    typesGame: state.typesGame.filter((type) => type.id !== payload),
   }),
   DEFAULT: (state) => state,
 }

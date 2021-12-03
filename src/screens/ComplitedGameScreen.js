@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { View, StyleSheet, Text } from 'react-native'
 
-import { AppHeaderIcon } from '../components/AppHeaderIcon'
+import { AppIonicons } from '../components/AppHeaderIcon'
 
 export const ComplitedGameScreen = ({
   navigation: { setOptions, toggleDrawer },
@@ -11,7 +11,7 @@ export const ComplitedGameScreen = ({
     setOptions({
       title: 'Завершенные игры',
       headerLeft: () => (
-        <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+        <HeaderButtons HeaderButtonComponent={AppIonicons}>
           <Item title="Menu" iconName="menu" onPress={() => toggleDrawer()} />
         </HeaderButtons>
       ),

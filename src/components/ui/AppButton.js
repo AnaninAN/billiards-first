@@ -15,8 +15,7 @@ export const AppButton = ({
       <View style={{ ...styles.button, backgroundColor: color }}>
         <AppTextBold
           style={{
-            color:
-              color === THEME.MAIN_COLOR ? THEME.TEXT_COLOR : THEME.MAIN_COLOR,
+            color: THEME.TEXT_COLOR,
             fontSize: fs,
           }}
         >

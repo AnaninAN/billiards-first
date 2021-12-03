@@ -14,3 +14,18 @@ export const DATA_TYPE = [
     balls: 8,
   },
 ]
+
+export const DATA_PLAYER = [
+  {
+    id: '1',
+    name: 'Андрей',
+    surname: 'Ананьин',
+    patronymic: 'Николаевич',
+  },
+  {
+    id: '2',
+    name: 'Александр',
+    surname: 'Дехтярев',
+    patronymic: 'Валерьевич',
+  },
+]

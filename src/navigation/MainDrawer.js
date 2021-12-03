@@ -2,7 +2,8 @@ import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import { CurComBottomTub } from './current-completed/CurComBottomTub'
-import { CreateAllBottomTub } from './create-all/CreateAllBottomTub'
+import { GameModal } from './games/GameModal'
+import { PlayerModal } from './players/PalyerModal'
 
 const Drawer = createDrawerNavigator()
 
@@ -20,12 +21,16 @@ export const MainDrawer = () => {
       />
       {/* <Drawer.Screen name="Start game" /> */}
       <Drawer.Screen
-        name="Create game"
-        component={CreateAllBottomTub}
+        name="Games"
+        component={GameModal}
         options={{ title: 'Игры' }}
       />
-      {/* <Drawer.Screen name="Players" />
-      <Drawer.Screen name="About APP" /> */}
+      <Drawer.Screen
+        name="Players"
+        component={PlayerModal}
+        options={{ title: 'Игроки' }}
+      />
+      {/* <Drawer.Screen name="About APP" /> */}
     </Drawer.Navigator>
   )
 }

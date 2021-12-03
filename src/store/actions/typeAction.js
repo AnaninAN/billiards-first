@@ -1,18 +1,25 @@
-import { ADD_GAME_TYPE, LOAD_GAME_TYPES } from '../types'
+import { ADD_TYPE_GAME, LOAD_TYPES_GAME, REMOVE_TYPE_GAME } from '../types'
 
 import { DATA_TYPE } from '../../data'
 
-export const loadGameTypes = () => {
+export const loadTypesGame = () => {
   return {
-    type: LOAD_GAME_TYPES,
+    type: LOAD_TYPES_GAME,
     payload: DATA_TYPE,
   }
 }
 
-export const addGameType = (type) => {
+export const addTypeGame = (type) => {
   type.id = Date.now().toString()
   return {
-    type: ADD_GAME_TYPE,
+    type: ADD_TYPE_GAME,
     payload: type,
+  }
+}
+
+export const removeTypeGame = (type) => {
+  return {
+    type: REMOVE_TYPE_GAME,
+    payload: type.id,
   }
 }
