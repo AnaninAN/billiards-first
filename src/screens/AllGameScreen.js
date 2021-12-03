@@ -1,10 +1,19 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useEffect } from 'react'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, FlatList } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { AppHeaderIcon } from '../components/AppHeaderIcon'
+import { loadGameTypes } from '../store/actions/typeAction'
+import { GameType } from '../components/GameType'
 
 export const AllGameScreen = ({ navigation: { setOptions, toggleDrawer } }) => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(loadGameTypes())
+  }, [dispatch])
+
   useLayoutEffect(() => {
     setOptions({
       title: 'Все игры',
@@ -16,17 +25,21 @@ export const AllGameScreen = ({ navigation: { setOptions, toggleDrawer } }) => {
     })
   }, [])
 
+  const gameTypes = useSelector((state) => state.type.gameTypes)
+
   return (
-    <View>
-      <Text>All Game Screen</Text>
+    <View style={styles.wrap}>
+      <FlatList
+        data={gameTypes}
+        keyExtractor={(type) => type.id.toString()}
+        renderItem={({ item }) => <GameType type={item} />}
+      />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  center: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  wrap: {
+    padding: 15,
   },
 })

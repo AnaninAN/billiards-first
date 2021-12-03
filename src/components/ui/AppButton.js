@@ -4,9 +4,14 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { THEME } from '../../theme'
 import { AppTextBold } from './AppTextBold'
 
-export const AppButton = ({ children, color = THEME.MAIN_COLOR, fs = 20 }) => {
+export const AppButton = ({
+  children,
+  color = THEME.MAIN_COLOR,
+  fs = 20,
+  onPress,
+}) => {
   return (
-    <TouchableOpacity activeOpacity={0.7}>
+    <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
       <View style={{ ...styles.button, backgroundColor: color }}>
         <AppTextBold
           style={{

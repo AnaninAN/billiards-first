@@ -11,19 +11,23 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native'
+import { useDispatch } from 'react-redux'
 
 import { THEME } from '../theme'
 
 import { AppHeaderIcon } from '../components/AppHeaderIcon'
 import { AppButton } from '../components/ui/AppButton'
+import { addGameType } from '../store/actions/typeAction'
 
 export const CreateGameScreen = ({
   navigation: { setOptions, toggleDrawer },
 }) => {
+  const dispatch = useDispatch()
+
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
-  const [number, setNumber] = useState(null)
-  const [balls, setBalls] = useState(null)
+  const [games, setGames] = useState('')
+  const [balls, setBalls] = useState('')
 
   useLayoutEffect(() => {
     setOptions({
@@ -35,6 +39,10 @@ export const CreateGameScreen = ({
       ),
     })
   }, [])
+
+  const addHandler = () => {
+    dispatch(addGameType({ name, desc, games, balls }))
+  }
 
   return (
     <ScrollView>
@@ -62,8 +70,8 @@ export const CreateGameScreen = ({
             <View style={styles.wrapRow}>
               <TextInput
                 style={styles.inputNum}
-                onChangeText={setNumber}
-                value={number}
+                onChangeText={setGames}
+                value={games}
                 keyboardType="numeric"
               />
               <TextInput
@@ -74,7 +82,7 @@ export const CreateGameScreen = ({
               />
             </View>
           </View>
-          <AppButton>Создать игру</AppButton>
+          <AppButton onPress={addHandler}>Создать игру</AppButton>
         </View>
       </TouchableWithoutFeedback>
     </ScrollView>
