@@ -4,12 +4,12 @@ import { View, StyleSheet, Text } from 'react-native'
 
 import { AppIonicons } from '../components/AppHeaderIcon'
 
-export const CurrentGameScreen = ({
+export const GamesComplitedScreen = ({
   navigation: { setOptions, toggleDrawer },
 }) => {
   useLayoutEffect(() => {
     setOptions({
-      title: 'Текущая игра',
+      title: 'Завершенные игры',
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={AppIonicons}>
           <Item title="Menu" iconName="menu" onPress={() => toggleDrawer()} />
@@ -20,7 +20,7 @@ export const CurrentGameScreen = ({
 
   return (
     <View>
-      <Text>Current Game Screen</Text>
+      <Text>Games Complited Screen</Text>
     </View>
   )
 }

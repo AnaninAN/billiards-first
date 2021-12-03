@@ -4,12 +4,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { THEME } from '../../theme'
 
-import { CurrentStack } from './CurrentStack'
-import { ComplitedStack } from './ComplitedStack'
+import { GamesCurrentStack } from './GamesCurrentStack'
+import { GamesComplitedStack } from './GamesComplitedStack'
 
 const Tab = createMaterialBottomTabNavigator()
 
-export const CurComBottomTub = () => {
+export const GamesBottomTub = () => {
   return (
     <Tab.Navigator
       shifting={true}
@@ -19,8 +19,8 @@ export const CurComBottomTub = () => {
       }}
     >
       <Tab.Screen
-        name="Current"
-        component={CurrentStack}
+        name="GamesCurrentStack"
+        component={GamesCurrentStack}
         options={{
           tabBarLabel: 'Текущая',
           tabBarIcon: ({ color }) => (
@@ -29,8 +29,8 @@ export const CurComBottomTub = () => {
         }}
       />
       <Tab.Screen
-        name="Complited"
-        component={ComplitedStack}
+        name="GamesComplitedStack"
+        component={GamesComplitedStack}
         options={{
           tabBarLabel: 'Завершенные',
           tabBarIcon: ({ color }) => (

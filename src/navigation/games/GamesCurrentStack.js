@@ -1,18 +1,15 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { ComplitedGameScreen } from '../../screens/ComplitedGameScreen'
+import { GamesCurrentScreen } from '../../screens/GamesCurrentScreen'
 import { screenOptions } from '../screenOptions'
 
 const Stack = createStackNavigator()
 
-export const ComplitedStack = () => {
+export const GamesCurrentStack = () => {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen
-        name="ComplitedGameScreen"
-        component={ComplitedGameScreen}
-      />
+      <Stack.Screen name="GamesCurrentScreen" component={GamesCurrentScreen} />
     </Stack.Navigator>
   )
 }
