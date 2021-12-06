@@ -5,3 +5,6 @@ export const REMOVE_TYPE_GAME = 'REMOVE_TYPE_GAME'
 export const LOAD_PLAYERS = 'LOAD_PLAYERS'
 export const ADD_PLAYER = 'ADD_PLAYER'
 export const REMOVE_PLAYER = 'REMOVE_PLAYER'
+
+export const LOAD_GAMES = 'LOAD_GAMES'
+export const CHANGE_GAME = 'CHANGE_GAME'

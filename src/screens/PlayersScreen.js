@@ -77,7 +77,7 @@ export const PlayersScreen = ({
         keyExtractor={(player) => player.id.toString()}
         renderItem={({ item }) => (
           <Player
-            player={item}
+            data={item}
             onOpen={toOpenGameHandler}
             onRemove={removeHandler}
           />

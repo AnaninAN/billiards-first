@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useEffect, useState } from 'react'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { View, StyleSheet, FlatList, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { Layout } from '@ui-kitten/components'
 
 import {
   AppIonicons,
@@ -65,7 +66,7 @@ export const TypesGameScreen = ({
   const typesGame = useSelector((state) => state.type.typesGame)
 
   return (
-    <View style={styles.wrap}>
+    <Layout style={styles.wrap} level="2">
       <CreateTypeGameModal
         visible={modal}
         onCancel={() => setModal(false)}
@@ -77,18 +78,19 @@ export const TypesGameScreen = ({
         keyExtractor={(type) => type.id.toString()}
         renderItem={({ item }) => (
           <TypeGame
-            type={item}
+            data={item}
             onOpen={toOpenTypeGameHandler}
             onRemove={removeHandler}
           />
         )}
       />
-    </View>
+    </Layout>
   )
 }
 
 const styles = StyleSheet.create({
   wrap: {
+    flex: 1,
     padding: 15,
   },
 })

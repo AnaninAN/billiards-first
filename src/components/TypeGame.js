@@ -1,36 +1,23 @@
 import React from 'react'
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 
-import { THEME } from '../theme'
+import { AppTouchableOpacityCard } from './ui/AppTouchableOpacityCard'
 import { AppTextBold } from './ui/AppTextBold'
 import { AppText } from './ui/AppText'
-import { AppCard } from './ui/AppCard'
 
-export const TypeGame = ({ type, onOpen, onRemove }) => {
+export const TypeGame = (props) => {
+  const { name, games, balls } = props.data
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.5}
-      onPress={() => onOpen(type)}
-      onLongPress={() => onRemove(type)}
-    >
-      <AppCard>
-        <AppTextBold style={styles.title}>{type.name}</AppTextBold>
-        <AppText style={styles.span}>
-          Количество игр для победы: <AppTextBold>{type.games}</AppTextBold>
-        </AppText>
-        <AppText style={styles.span}>
-          Количество шаров в игре: <AppTextBold>{type.balls}</AppTextBold>
-        </AppText>
-      </AppCard>
-    </TouchableOpacity>
+    <AppTouchableOpacityCard {...props} status="primary">
+      <AppTextBold category="h5">{name}</AppTextBold>
+      <AppText category="h6">
+        Количество игр для победы:{' '}
+        <AppTextBold category="h6">{games}</AppTextBold>
+      </AppText>
+      <AppText category="h6">
+        Количество шаров в игре:{' '}
+        <AppTextBold category="h6">{balls}</AppTextBold>
+      </AppText>
+    </AppTouchableOpacityCard>
   )
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 20,
-  },
-  span: {
-    fontSize: 17,
-  },
-})

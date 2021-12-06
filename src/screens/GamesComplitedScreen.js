@@ -1,11 +1,14 @@
 import React, { useLayoutEffect } from 'react'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import { View, StyleSheet, Text } from 'react-native'
+import { StyleSheet, FlatList } from 'react-native'
+import { Layout } from '@ui-kitten/components'
+import { useSelector } from 'react-redux'
 
 import { AppIonicons } from '../components/AppHeaderIcon'
+import { Game } from '../components/Game'
 
 export const GamesComplitedScreen = ({
-  navigation: { setOptions, toggleDrawer },
+  navigation: { setOptions, toggleDrawer, navigate },
 }) => {
   useLayoutEffect(() => {
     setOptions({
@@ -18,17 +21,37 @@ export const GamesComplitedScreen = ({
     })
   }, [])
 
+  const toOpenGameHandler = (game) => {
+    navigate('GameComplitedScreen', {
+      idGame: game.id,
+    })
+  }
+
+  const removeHandler = () => {}
+
+  const gamesComplited = useSelector((state) => state.game.gamesComplited)
+
   return (
-    <View>
-      <Text>Games Complited Screen</Text>
-    </View>
+    <Layout style={styles.wrap}>
+      <FlatList
+        data={gamesComplited}
+        keyExtractor={(game) => game.id.toString()}
+        renderItem={({ item }) => (
+          <Game
+            data={item}
+            onOpen={toOpenGameHandler}
+            onRemove={removeHandler}
+            status="danger"
+          />
+        )}
+      />
+    </Layout>
   )
 }
 
 const styles = StyleSheet.create({
-  center: {
+  wrap: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 15,
   },
 })

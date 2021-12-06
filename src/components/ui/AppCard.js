@@ -1,20 +1,35 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
-export const AppCard = (props) => (
-  <View style={{ ...styles.default, ...props.style }}>{props.children}</View>
-)
+import { AppTextBold } from './AppTextBold'
+import { AppText } from './AppText'
+
+export const AppCard = ({ children, style, color = '#fff', bold = null }) => {
+  const Text = bold ? AppTextBold : AppText
+  const fs = bold ? 'h3' : 'h5'
+
+  return (
+    <View style={{ ...styles.wrap, ...style }}>
+      <View style={{ ...styles.line, backgroundColor: color }}></View>
+      <Text category={fs}>{children}</Text>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
-  default: {
-    padding: 20,
-    shadowColor: '#000',
-    shadowRadius: 2,
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 2, height: 2 },
-    elevation: 3,
+  wrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#fff',
-    borderRadius: 10,
-    marginBottom: 15,
+    height: '100%',
+    borderColor: '#eee',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  line: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: 5,
   },
 })

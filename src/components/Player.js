@@ -1,27 +1,16 @@
 import React from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
 
+import { AppTouchableOpacityCard } from './ui/AppTouchableOpacityCard'
 import { AppTextBold } from './ui/AppTextBold'
-import { AppCard } from './ui/AppCard'
 
-export const Player = ({ player, onOpen, onRemove }) => {
+export const Player = (props) => {
+  const { name, surname, patronymic } = props.data
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.5}
-      onPress={() => onOpen(player)}
-      onLongPress={() => onRemove(player)}
-    >
-      <AppCard>
-        <AppTextBold style={styles.title}>
-          {player.surname} {player.name} {player.patronymic}
-        </AppTextBold>
-      </AppCard>
-    </TouchableOpacity>
+    <AppTouchableOpacityCard {...props} status="primary">
+      <AppTextBold category="h5">
+        {surname} {name} {patronymic}
+      </AppTextBold>
+    </AppTouchableOpacityCard>
   )
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 20,
-  },
-})

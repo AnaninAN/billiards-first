@@ -4,6 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import { GamesBottomTub } from './games/GamesBottomTub'
 import { TypeGameModal } from './types/TypeGameModal'
 import { PlayerModal } from './players/PalyerModal'
+import { AboutStack } from './about/AboutStack'
 
 const Drawer = createDrawerNavigator()
 
@@ -30,7 +31,11 @@ export const MainDrawer = () => {
         component={PlayerModal}
         options={{ title: 'Игроки' }}
       />
-      {/* <Drawer.Screen name="About APP" /> */}
+      <Drawer.Screen
+        name="About APP"
+        component={AboutStack}
+        options={{ title: 'О приложении' }}
+      />
     </Drawer.Navigator>
   )
 }
