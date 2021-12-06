@@ -1,4 +1,4 @@
-import { CHANGE_GAME, LOAD_GAMES } from '../types'
+import { ADD_GAME, CHANGE_GAME, LOAD_GAMES } from '../types'
 
 const initialState = {
   allGames: [],
@@ -24,6 +24,16 @@ const handlers = {
       newGame,
       ...state.allGames.slice(index + 1),
     ]
+
+    return {
+      ...state,
+      allGames: newAllGames,
+      gamesCurrent: newAllGames.filter((game) => game.active),
+      gamesComplited: newAllGames.filter((game) => !game.active),
+    }
+  },
+  [ADD_GAME]: (state, { payload }) => {
+    const newAllGames = [{ ...payload }, ...state.allGames]
 
     return {
       ...state,

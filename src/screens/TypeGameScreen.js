@@ -1,13 +1,22 @@
-import React from 'react'
-import { View, StyleSheet, Text, Button } from 'react-native'
+import React, { useLayoutEffect } from 'react'
+import { View, StyleSheet } from 'react-native'
+import { Button } from '@ui-kitten/components'
 
-export const TypeGameScreen = ({ route, navigation: { goBack } }) => {
+export const TypeGameScreen = ({
+  route,
+  navigation: { goBack, setOptions },
+}) => {
   const { name } = route.params
+
+  useLayoutEffect(() => {
+    setOptions({
+      title: name,
+    })
+  }, [])
 
   return (
     <View style={styles.center}>
-      <Text>{name}</Text>
-      <Button title="Назад" onPress={() => goBack()} />
+      <Button onPress={() => goBack()}>Назад</Button>
     </View>
   )
 }

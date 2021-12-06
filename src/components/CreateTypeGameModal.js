@@ -2,15 +2,13 @@ import React, { useState } from 'react'
 import {
   View,
   StyleSheet,
-  TextInput,
   Modal,
   Text,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native'
+import { Input, Button } from '@ui-kitten/components'
 
-import { THEME } from '../theme'
-import { AppButton } from './ui/AppButton'
 import { AppTextBold } from './ui/AppTextBold'
 
 export const CreateTypeGameModal = ({ visible, onCancel, onSave }) => {
@@ -27,7 +25,12 @@ export const CreateTypeGameModal = ({ visible, onCancel, onSave }) => {
   }
 
   const saveHandler = () => {
-    const type = { name, desc, games, balls }
+    const type = {
+      name,
+      desc,
+      games: parseInt(games, 10),
+      balls: parseInt(balls, 10),
+    }
     onSave(type)
     clearState()
   }
@@ -41,44 +44,56 @@ export const CreateTypeGameModal = ({ visible, onCancel, onSave }) => {
     <Modal visible={visible} animationType="slide" transparent={false}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.wrap}>
-          <AppTextBold style={styles.title}>Создание новой игры</AppTextBold>
-          <TextInput
+          <AppTextBold style={styles.title} category="h4">
+            Создание игры
+          </AppTextBold>
+          <Input
             style={styles.input}
+            size="large"
+            textStyle={{ fontSize: 18 }}
             onChangeText={setName}
             value={name}
             placeholder="Введите название игры"
           />
-          <TextInput
+
+          <Input
             style={styles.input}
+            multiline={true}
+            textStyle={{ minHeight: 128, fontSize: 18 }}
+            placeholder="Введите описание"
             onChangeText={setDesc}
             value={desc}
-            placeholder="Введите описание"
-            multiline
-            numberOfLines={5}
           />
           <View style={styles.wrapRow}>
             <Text style={styles.text}>Количество игр</Text>
             <Text style={styles.text}>Количество шаров в игре</Text>
           </View>
           <View style={styles.wrapRow}>
-            <TextInput
+            <Input
               style={styles.inputNum}
+              size="large"
+              textStyle={{ fontSize: 18 }}
               onChangeText={setGames}
               value={games}
               keyboardType="numeric"
             />
-            <TextInput
+
+            <Input
               style={styles.inputNum}
+              size="large"
+              textStyle={{ fontSize: 18 }}
               onChangeText={setBalls}
               value={balls}
               keyboardType="numeric"
             />
           </View>
-          <View style={styles.buttons}>
-            <AppButton onPress={cancelHandler} color={THEME.DANGER_COLOR}>
+          <View style={styles.wrapButtons}>
+            <Button status="danger" onPress={cancelHandler}>
               Отменить
-            </AppButton>
-            <AppButton onPress={saveHandler}>Создать игру</AppButton>
+            </Button>
+            <Button status="primary" onPress={saveHandler}>
+              Создать
+            </Button>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -93,25 +108,13 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    fontSize: 26,
     marginBottom: 15,
   },
   input: {
-    padding: 10,
-    borderBottomWidth: 1,
     marginVertical: 10,
-    textAlignVertical: 'top',
-    fontFamily: 'play-regular',
-    fontSize: THEME.FONT_SIZE_INPUT,
   },
   inputNum: {
     width: '30%',
-    padding: 10,
-    borderWidth: 1,
-    marginBottom: 20,
-    textAlignVertical: 'top',
-    fontFamily: 'play-regular',
-    fontSize: THEME.FONT_SIZE_INPUT,
   },
   wrapRow: {
     flexDirection: 'row',
@@ -121,14 +124,13 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'play-regular',
-    fontSize: THEME.FONT_SIZE_TEXT,
+    fontSize: 18,
     width: '35%',
     textAlign: 'center',
   },
-  buttons: {
-    width: '100%',
-    marginTop: 10,
+  wrapButtons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginVertical: 10,
   },
 })

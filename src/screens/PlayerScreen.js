@@ -1,13 +1,21 @@
-import React from 'react'
-import { View, StyleSheet, Text, Button } from 'react-native'
+import React, { useLayoutEffect } from 'react'
+import { View, StyleSheet } from 'react-native'
+import { Button } from '@ui-kitten/components'
 
-export const PlayerScreen = ({ route, navigation: { goBack } }) => {
-  const { name } = route.params
+import { MyFunc } from '../app_func'
+
+export const PlayerScreen = ({ route, navigation: { goBack, setOptions } }) => {
+  const { player } = route.params
+
+  useLayoutEffect(() => {
+    setOptions({
+      title: MyFunc.surnameNP(player),
+    })
+  }, [])
 
   return (
     <View style={styles.center}>
-      <Text>{name}</Text>
-      <Button title="Назад" onPress={() => goBack()} />
+      <Button onPress={() => goBack()}>Назад</Button>
     </View>
   )
 }

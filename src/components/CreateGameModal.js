@@ -4,11 +4,17 @@ import {
   Layout,
   Select,
   SelectItem,
+  Icon,
   IndexPath,
   Modal,
   Button,
 } from '@ui-kitten/components'
 import { useSelector } from 'react-redux'
+
+import { AppText } from '../components/ui/AppText'
+
+const PersonIcon = (props) => <Icon {...props} name="person-outline" />
+const StarIcon = (props) => <Icon {...props} name="star-outline" />
 
 export const CreateGameModal = ({ visible, onCancel, onSave }) => {
   const [selectedIndexTypeGame, setSelectedIndexTypeGame] = useState(
@@ -47,12 +53,52 @@ export const CreateGameModal = ({ visible, onCancel, onSave }) => {
     displayValuePlayer2 = dataPlayers2[selectedIndexPlayer2.row].name
   }
 
-  const renderOption = (title) => (
-    <SelectItem key={title.id} title={title.name} />
+  const renderOptionPerson = (title) => (
+    <SelectItem key={title.id} title={title.name} accessoryLeft={PersonIcon} />
+  )
+
+  const renderOptionStar = (title) => (
+    <SelectItem key={title.id} title={title.name} accessoryLeft={StarIcon} />
   )
 
   const cancelHandler = () => {
     onCancel()
+  }
+
+  const saveHandler = () => {
+    const typeGame = types
+      .filter(({ id }) => id === dataTypes[selectedIndexTypeGame.row].id)
+      .map(({ name, games, balls }) => ({
+        name,
+        games,
+        balls,
+      }))[0]
+    const player1 = {
+      player1: players
+        .filter(({ id }) => id === dataPlayers1[selectedIndexPlayer1.row].id)
+        .map(({ name, surname, patronymic }) => ({
+          name,
+          surname,
+          patronymic,
+          pocketedBalls: 0,
+          wonGames: 0,
+        }))[0],
+    }
+    const player2 = {
+      player2: players
+        .filter(({ id }) => id === dataPlayers2[selectedIndexPlayer2.row].id)
+        .map(({ name, surname, patronymic }) => ({
+          name,
+          surname,
+          patronymic,
+          pocketedBalls: 0,
+          wonGames: 0,
+        }))[0],
+    }
+
+    const game = { ...typeGame, ...player1, ...player2 }
+
+    onSave(game)
   }
 
   return (
@@ -64,39 +110,39 @@ export const CreateGameModal = ({ visible, onCancel, onSave }) => {
       <Layout style={styles.container}>
         <Select
           style={styles.select}
+          size="large"
           selectedIndex={selectedIndexTypeGame}
           onSelect={(index) => setSelectedIndexTypeGame(index)}
           value={displayValueTypeGame}
           label="Выберите игру"
         >
-          {dataTypes.map(renderOption)}
+          {dataTypes.map(renderOptionStar)}
         </Select>
         <Select
           style={styles.select}
+          size="large"
           selectedIndex={selectedIndexPlayer1}
           onSelect={(index) => setSelectedIndexPlayer1(index)}
           value={displayValuePlayer1}
           label="Выберите первого игрока"
         >
-          {dataPlayers1.map(renderOption)}
+          {dataPlayers1.map(renderOptionPerson)}
         </Select>
         <Select
           style={styles.select}
+          size="large"
           selectedIndex={selectedIndexPlayer2}
           onSelect={(index) => setSelectedIndexPlayer2(index)}
           value={displayValuePlayer2}
           label="Выберите второго игрока"
         >
-          {dataPlayers2.map(renderOption)}
+          {dataPlayers2.map(renderOptionPerson)}
         </Select>
         <Layout style={styles.wrapButtons}>
           <Button status="danger" onPress={cancelHandler}>
             Отмена
           </Button>
-          <Button
-            status="primary"
-            onPress={() => console.log(dataTypes[selectedIndexTypeGame.row].id)}
-          >
+          <Button status="primary" onPress={saveHandler}>
             Создать
           </Button>
         </Layout>
@@ -122,6 +168,6 @@ const styles = StyleSheet.create({
   },
   wrapButtons: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
 })

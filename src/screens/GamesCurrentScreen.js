@@ -8,7 +8,7 @@ import {
   AppIonicons,
   AppMaterialCommunityIcons,
 } from '../components/AppHeaderIcon'
-import { loadGames } from '../store/actions/gameAction'
+import { loadGames, addGame } from '../store/actions/gameAction'
 import { loadTypesGame } from '../store/actions/typeAction'
 import { loadPlayers } from '../store/actions/playerAction'
 import { Game } from '../components/Game'
@@ -50,7 +50,10 @@ export const GamesCurrentScreen = ({
 
   const removeHandler = () => {}
 
-  const saveHandler = () => {}
+  const saveHandler = (game) => {
+    setModal(false)
+    dispatch(addGame(game))
+  }
 
   const gamesCurrent = useSelector((state) => state.game.gamesCurrent)
 

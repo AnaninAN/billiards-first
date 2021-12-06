@@ -8,3 +8,4 @@ export const REMOVE_PLAYER = 'REMOVE_PLAYER'
 
 export const LOAD_GAMES = 'LOAD_GAMES'
 export const CHANGE_GAME = 'CHANGE_GAME'
+export const ADD_GAME = 'ADD_GAME'

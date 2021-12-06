@@ -43,7 +43,7 @@ export const PlayersScreen = ({
 
   const toOpenGameHandler = (player) => {
     navigate('PlayerScreen', {
-      name: player.name,
+      player,
     })
   }
 

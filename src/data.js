@@ -18,12 +18,60 @@ export const DATA_TYPE = [
 export const DATA_PLAYER = [
   {
     id: '1',
-    name: 'Андрей',
-    surname: 'Ананьин',
-    patronymic: 'Николаевич',
+    name: 'Андрейasdsdsa',
+    surname: 'Ананьинasdsad',
+    patronymic: 'Николаевичsdsasd',
   },
   {
     id: '2',
+    name: 'Александр',
+    surname: 'Дехтярев',
+    patronymic: 'Валерьевич',
+  },
+  {
+    id: '3',
+    name: 'Александр',
+    surname: 'Дехтярев',
+    patronymic: 'Валерьевич',
+  },
+  {
+    id: '4',
+    name: 'Александр',
+    surname: 'Дехтярев',
+    patronymic: 'Валерьевич',
+  },
+  {
+    id: '5',
+    name: 'Александр',
+    surname: 'Дехтярев',
+    patronymic: 'Валерьевич',
+  },
+  {
+    id: '6',
+    name: 'Александр',
+    surname: 'Дехтярев',
+    patronymic: 'Валерьевич',
+  },
+  {
+    id: '7',
+    name: 'Александр',
+    surname: 'Дехтярев',
+    patronymic: 'Валерьевич',
+  },
+  {
+    id: '8',
+    name: 'Александр',
+    surname: 'Дехтярев',
+    patronymic: 'Валерьевич',
+  },
+  {
+    id: '9',
+    name: 'Александр',
+    surname: 'Дехтярев',
+    patronymic: 'Валерьевич',
+  },
+  {
+    id: '10',
     name: 'Александр',
     surname: 'Дехтярев',
     patronymic: 'Валерьевич',

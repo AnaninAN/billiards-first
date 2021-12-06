@@ -12,6 +12,7 @@ import { bootstrap } from './src/bootstrap'
 import { AppNavigation } from './src/navigation/AppNavigation'
 import store from './src/store'
 import { default as theme } from './src/theme_eva.json'
+import { default as mapping } from './mapping.json'
 
 export default function App() {
   const [isReady, setIsReady] = useState(false)
@@ -29,7 +30,11 @@ export default function App() {
   return (
     <Provider store={store}>
       <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+      <ApplicationProvider
+        {...eva}
+        theme={{ ...eva.light, ...theme }}
+        customMapping={mapping}
+      >
         <AppNavigation />
         <StatusBar style="light" />
       </ApplicationProvider>
