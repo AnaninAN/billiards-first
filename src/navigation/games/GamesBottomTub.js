@@ -2,7 +2,7 @@ import React from 'react'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-import { THEME } from '../../theme'
+import { default as theme } from '../../theme_eva.json'
 
 import { GamesCurrentStack } from './GamesCurrentStack'
 import { GamesComplitedStack } from './GamesComplitedStack'
@@ -13,9 +13,9 @@ export const GamesBottomTub = () => {
   return (
     <Tab.Navigator
       shifting={true}
-      activeColor={THEME.TEXT_COLOR}
+      activeColor="#fff"
       screenOptions={{
-        tabBarColor: THEME.MAIN_COLOR,
+        tabBarColor: theme['color-primary-900'],
       }}
     >
       <Tab.Screen

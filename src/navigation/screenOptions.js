@@ -1,10 +1,10 @@
-import { THEME } from '../theme'
+import { default as theme } from '../theme_eva.json'
 
 export const screenOptions = {
   headerStyle: {
-    backgroundColor: THEME.MAIN_COLOR,
+    backgroundColor: theme['color-primary-900'],
   },
-  headerTintColor: THEME.TEXT_COLOR,
+  headerTintColor: '#fff',
   headerTitleStyle: {
     fontFamily: 'play-bold',
   },

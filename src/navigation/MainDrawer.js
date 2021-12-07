@@ -1,5 +1,8 @@
 import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+
+import { DrawerContent } from '../components/DrawerContent'
 
 import { GamesBottomTub } from './games/GamesBottomTub'
 import { TypeGameModal } from './types/TypeGameModal'
@@ -7,41 +10,84 @@ import { PlayerModal } from './players/PalyerModal'
 import { TableModal } from './tables/TableModal'
 import { AboutStack } from './about/AboutStack'
 
-const Drawer = createDrawerNavigator()
+import { default as theme } from '../theme_eva.json'
+
+const { Navigator, Screen, Group } = createDrawerNavigator()
 
 export const MainDrawer = () => {
   return (
-    <Drawer.Navigator
+    <Navigator
       screenOptions={{
         headerShown: false,
+        drawerActiveBackgroundColor: theme['color-primary-700'],
+        drawerActiveTintColor: '#fff',
+        drawerInactiveTintColor: '#333',
+        drawerLabelStyle: {
+          marginLeft: -20,
+          fontFamily: 'play-regular',
+          fontSize: 15,
+        },
       }}
+      drawerContent={(props) => <DrawerContent {...props} />}
     >
-      <Drawer.Screen
+      <Screen
         name="Main"
         component={GamesBottomTub}
-        options={{ title: 'Главная' }}
+        options={{
+          title: 'Главная',
+          drawerIcon: ({ color }) => (
+            <Ionicons name="home-outline" size={22} color={color} />
+          ),
+        }}
       />
-      {/* <Drawer.Screen name="Start game" /> */}
-      <Drawer.Screen
-        name="TypeGame"
+      <Screen
+        name="TypesGame"
         component={TypeGameModal}
-        options={{ title: 'Типы игр' }}
+        options={{
+          title: 'Виды игр',
+          drawerIcon: ({ color }) => (
+            <Ionicons name="game-controller-outline" size={22} color={color} />
+          ),
+        }}
       />
-      <Drawer.Screen
+      <Screen
         name="Players"
         component={PlayerModal}
-        options={{ title: 'Игроки' }}
+        options={{
+          title: 'Игроки',
+          drawerIcon: ({ color }) => (
+            <Ionicons name="people-outline" size={22} color={color} />
+          ),
+        }}
       />
-      <Drawer.Screen
+      <Screen
         name="Tables"
         component={TableModal}
-        options={{ title: 'Столы' }}
+        options={{
+          title: 'Столы',
+          drawerIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="table-furniture"
+              size={22}
+              color={color}
+            />
+          ),
+        }}
       />
-      <Drawer.Screen
-        name="About APP"
+      <Screen
+        name="AboutAPP"
         component={AboutStack}
-        options={{ title: 'О приложении' }}
+        options={{
+          title: 'О приложении',
+          drawerIcon: ({ color }) => (
+            <Ionicons
+              name="information-circle-outline"
+              size={22}
+              color={color}
+            />
+          ),
+        }}
       />
-    </Drawer.Navigator>
+    </Navigator>
   )
 }
