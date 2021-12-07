@@ -1,4 +1,4 @@
-import { ADD_PLAYER, LOAD_PLAYERS, REMOVE_PLAYER } from '../types'
+import { ADD_PLAYER, EDIT_PLAYER, LOAD_PLAYERS, REMOVE_PLAYER } from '../types'
 
 import { DATA_PLAYER } from '../../data'
 
@@ -21,5 +21,12 @@ export const removePlayer = (player) => {
   return {
     type: REMOVE_PLAYER,
     payload: player.id,
+  }
+}
+
+export const editPlayer = (player) => {
+  return {
+    type: EDIT_PLAYER,
+    payload: player,
   }
 }

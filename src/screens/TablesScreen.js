@@ -1,26 +1,30 @@
 import React, { useLayoutEffect, useEffect, useState } from 'react'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import { StyleSheet, FlatList, Alert } from 'react-native'
+import { View, StyleSheet, FlatList, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { Layout } from '@ui-kitten/components'
+
+import { loadTables, addTable } from '../store/actions/tableAction'
+import { Table } from '../components/Table'
+import { CreateTableModal } from '../components/CreateTableModal'
 
 import {
   AppIonicons,
   AppMaterialCommunityIcons,
 } from '../components/AppHeaderIcon'
-import { addTypeGame, removeTypeGame } from '../store/actions/typeAction'
-import { TypeGame } from '../components/TypeGame'
-import { CreateTypeGameModal } from '../components/CreateTypeGameModal'
 
-export const TypesGameScreen = ({
+export const TablesScreen = ({
   navigation: { setOptions, toggleDrawer, navigate },
 }) => {
   const dispatch = useDispatch()
   const [modal, setModal] = useState(false)
 
+  useEffect(() => {
+    dispatch(loadTables())
+  }, [dispatch])
+
   useLayoutEffect(() => {
     setOptions({
-      title: 'Все игры',
+      title: 'Столы',
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={AppIonicons}>
           <Item title="Menu" iconName="menu" onPress={() => toggleDrawer()} />
@@ -34,62 +38,54 @@ export const TypesGameScreen = ({
     })
   }, [])
 
-  const toOpenTypeGameHandler = (type) => {
-    navigate('TypeGameScreen', {
-      type,
-      onRemove: removeHandler,
+  const toOpenGameHandler = (table) => {
+    navigate('TableScreen', {
+      table,
     })
   }
 
-  const saveHandler = (type) => {
-    dispatch(addTypeGame(type))
+  const saveHandler = (table) => {
+    dispatch(addTable(table))
     setModal(false)
   }
 
-  const removeHandler = (type) => {
-    Alert.alert('Удаление игры', `Удалить игру "${type.name}"?`, [
+  const removeHandler = (table) => {
+    Alert.alert('Удаление стола', `Удалить стол "${table.name}"?`, [
       {
         text: 'Отмена',
         style: 'cancel',
       },
-      {
-        text: 'Удалить',
-        onPress: () => {
-          dispatch(removeTypeGame(type))
-          navigate('TypesGameStack')
-        },
-      },
+      { text: 'Удалить', onPress: () => {} },
     ])
   }
 
-  const typesGame = useSelector((state) => state.type.typesGame)
+  const tables = useSelector((state) => state.table.tables)
 
   return (
-    <Layout style={styles.wrap} level="2">
-      <CreateTypeGameModal
+    <View style={styles.wrap}>
+      <CreateTableModal
         visible={modal}
         onCancel={() => setModal(false)}
         onSave={saveHandler}
       />
 
       <FlatList
-        data={typesGame}
-        keyExtractor={(type) => type.id.toString()}
+        data={tables}
+        keyExtractor={(player) => player.id.toString()}
         renderItem={({ item }) => (
-          <TypeGame
+          <Table
             data={item}
-            onOpen={toOpenTypeGameHandler}
+            onOpen={toOpenGameHandler}
             onRemove={removeHandler}
           />
         )}
       />
-    </Layout>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   wrap: {
-    flex: 1,
     padding: 15,
   },
 })

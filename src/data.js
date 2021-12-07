@@ -18,60 +18,12 @@ export const DATA_TYPE = [
 export const DATA_PLAYER = [
   {
     id: '1',
-    name: 'Андрейasdsdsa',
-    surname: 'Ананьинasdsad',
-    patronymic: 'Николаевичsdsasd',
+    name: 'Андрей',
+    surname: 'Ананьин',
+    patronymic: 'Николаевич',
   },
   {
     id: '2',
-    name: 'Александр',
-    surname: 'Дехтярев',
-    patronymic: 'Валерьевич',
-  },
-  {
-    id: '3',
-    name: 'Александр',
-    surname: 'Дехтярев',
-    patronymic: 'Валерьевич',
-  },
-  {
-    id: '4',
-    name: 'Александр',
-    surname: 'Дехтярев',
-    patronymic: 'Валерьевич',
-  },
-  {
-    id: '5',
-    name: 'Александр',
-    surname: 'Дехтярев',
-    patronymic: 'Валерьевич',
-  },
-  {
-    id: '6',
-    name: 'Александр',
-    surname: 'Дехтярев',
-    patronymic: 'Валерьевич',
-  },
-  {
-    id: '7',
-    name: 'Александр',
-    surname: 'Дехтярев',
-    patronymic: 'Валерьевич',
-  },
-  {
-    id: '8',
-    name: 'Александр',
-    surname: 'Дехтярев',
-    patronymic: 'Валерьевич',
-  },
-  {
-    id: '9',
-    name: 'Александр',
-    surname: 'Дехтярев',
-    patronymic: 'Валерьевич',
-  },
-  {
-    id: '10',
     name: 'Александр',
     surname: 'Дехтярев',
     patronymic: 'Валерьевич',
@@ -102,5 +54,20 @@ export const DATA_GAME = [
       pocketedBalls: 0,
       wonGames: 0,
     },
+  },
+]
+
+export const DATA_TABLE = [
+  {
+    id: '1',
+    name: 'Стол 3',
+  },
+  {
+    id: '2',
+    name: 'Стол 4',
+  },
+  {
+    id: '3',
+    name: 'Стол 5 (ТВ-стол)',
   },
 ]

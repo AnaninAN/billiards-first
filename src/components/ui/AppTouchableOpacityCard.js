@@ -8,7 +8,7 @@ export const AppTouchableOpacityCard = (props) => {
     <TouchableOpacity>
       <Card
         {...rest}
-        style={{ margin: 2 }}
+        style={{ marginVertical: 6 }}
         activeOpacity={0.4}
         onPress={() => onOpen(data)}
         onLongPress={() => onRemove(data)}

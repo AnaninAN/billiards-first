@@ -3,9 +3,10 @@ import React from 'react'
 import { AppTouchableOpacityCard } from './ui/AppTouchableOpacityCard'
 import { AppTextBold } from './ui/AppTextBold'
 import { AppText } from './ui/AppText'
+import { default as theme } from '../theme_eva.json'
 
 export const Game = (props) => {
-  const { name, player1, player2, date } = props.data
+  const { name, player1, player2, date, table } = props.data
 
   return (
     <AppTouchableOpacityCard {...props} status={props.status}>
@@ -21,6 +22,9 @@ export const Game = (props) => {
       <AppText style={{ marginTop: 5 }} appearance="hint">
         Дата встречи: {date}
       </AppText>
+      <AppTextBold style={{ marginTop: 5, color: theme['color-danger-900'] }}>
+        {table}
+      </AppTextBold>
     </AppTouchableOpacityCard>
   )
 }

@@ -7,23 +7,16 @@ import {
   AppIonicons,
   AppMaterialCommunityIcons,
 } from '../components/AppHeaderIcon'
-import {
-  loadPlayers,
-  addPlayer,
-  removePlayer,
-} from '../store/actions/playerAction'
+import { addPlayer, removePlayer } from '../store/actions/playerAction'
 import { Player } from '../components/Player'
 import { CreatePlayerModal } from '../components/CreatePlayerModal'
+import { MyFunc } from '../app_func'
 
 export const PlayersScreen = ({
   navigation: { setOptions, toggleDrawer, navigate },
 }) => {
   const dispatch = useDispatch()
   const [modal, setModal] = useState(false)
-
-  useEffect(() => {
-    dispatch(loadPlayers())
-  }, [dispatch])
 
   useLayoutEffect(() => {
     setOptions({
@@ -44,6 +37,7 @@ export const PlayersScreen = ({
   const toOpenGameHandler = (player) => {
     navigate('PlayerScreen', {
       player,
+      onRemove: removeHandler,
     })
   }
 
@@ -53,13 +47,23 @@ export const PlayersScreen = ({
   }
 
   const removeHandler = (player) => {
-    Alert.alert('Удаление игрока', `Удалить игрока "${player.name}"?`, [
-      {
-        text: 'Отмена',
-        style: 'cancel',
-      },
-      { text: 'Удалить', onPress: () => dispatch(removePlayer(player)) },
-    ])
+    Alert.alert(
+      'Удаление игрока',
+      `Удалить игрока "${MyFunc.surnameNP(player)}"?`,
+      [
+        {
+          text: 'Отмена',
+          style: 'cancel',
+        },
+        {
+          text: 'Удалить',
+          onPress: () => {
+            dispatch(removePlayer(player))
+            navigate('PlayersStack')
+          },
+        },
+      ]
+    )
   }
 
   const players = useSelector((state) => state.player.players)

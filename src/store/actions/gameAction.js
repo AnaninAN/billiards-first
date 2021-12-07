@@ -23,7 +23,7 @@ export const addGame = (game) => {
   game.id = Date.now().toString()
   game.date = moment(new Date()).format('DD.MM.YYYY')
   game.active = true
-  game.table = 'Стол 5 (ТВ-стол)'
+  //game.table = 'Стол 5 (ТВ-стол)'
   game.history = []
   return {
     type: ADD_GAME,

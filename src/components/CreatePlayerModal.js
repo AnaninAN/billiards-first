@@ -1,17 +1,72 @@
 import React, { useState } from 'react'
 import {
+  ScrollView,
   View,
   StyleSheet,
-  TextInput,
-  Modal,
-  Text,
   TouchableWithoutFeedback,
   Keyboard,
+  Modal,
 } from 'react-native'
+import { Button, Input } from '@ui-kitten/components'
 
-import { THEME } from '../theme'
-import { AppButton } from './ui/AppButton'
 import { AppTextBold } from './ui/AppTextBold'
+
+export const PlayerContent = ({
+  title,
+  nameInputState,
+  surnameInputState,
+  patronymicInputState,
+  cancelHandler,
+  saveHandler,
+  dangerButtonName,
+  primaryButtonName,
+  disabled,
+}) => {
+  return (
+    <ScrollView>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.wrap}>
+          <AppTextBold style={styles.title}>{title}</AppTextBold>
+          <Input
+            style={styles.input}
+            size="large"
+            textStyle={{ fontSize: 18 }}
+            {...surnameInputState}
+            placeholder="Введите фамилию"
+            disabled={disabled}
+          />
+          <Input
+            style={styles.input}
+            size="large"
+            textStyle={{ fontSize: 18 }}
+            {...nameInputState}
+            placeholder="Введите имя"
+            disabled={disabled}
+          />
+
+          <Input
+            style={styles.input}
+            size="large"
+            textStyle={{ fontSize: 18 }}
+            {...patronymicInputState}
+            placeholder="Введите отчество"
+            disabled={disabled}
+          />
+          {!disabled && (
+            <View style={styles.wrapButtons}>
+              <Button status="danger" onPress={cancelHandler}>
+                {dangerButtonName}
+              </Button>
+              <Button status="primary" onPress={saveHandler}>
+                {primaryButtonName}
+              </Button>
+            </View>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
+    </ScrollView>
+  )
+}
 
 export const CreatePlayerModal = ({ visible, onCancel, onSave }) => {
   const [name, setName] = useState('')
@@ -37,42 +92,25 @@ export const CreatePlayerModal = ({ visible, onCancel, onSave }) => {
 
   return (
     <Modal visible={visible} animationType="slide" transparent={false}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.wrap}>
-          <AppTextBold style={styles.title}>Создание нового игрока</AppTextBold>
-          <TextInput
-            style={styles.input}
-            onChangeText={setSurname}
-            value={surname}
-            placeholder="Введите фамилию"
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={setName}
-            value={name}
-            placeholder="Введите имя"
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={setPatronymic}
-            value={patronymic}
-            placeholder="Введите отчество"
-          />
-          <View style={styles.buttons}>
-            <AppButton onPress={cancelHandler} color={THEME.DANGER_COLOR}>
-              Отменить
-            </AppButton>
-            <AppButton onPress={saveHandler}>Создать игрока</AppButton>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
+      <PlayerContent
+        title="Создание нового игрока"
+        nameInputState={{ value: name, onChangeText: setName }}
+        surnameInputState={{ value: surname, onChangeText: setSurname }}
+        patronymicInputState={{
+          value: patronymic,
+          onChangeText: setPatronymic,
+        }}
+        cancelHandler={cancelHandler}
+        saveHandler={saveHandler}
+        dangerButtonName="Отменить"
+        primaryButtonName="Создать"
+      />
     </Modal>
   )
 }
 
 const styles = StyleSheet.create({
   wrap: {
-    flex: 1,
     padding: 20,
   },
   title: {
@@ -81,15 +119,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   input: {
-    padding: 10,
-    borderBottomWidth: 1,
     marginVertical: 10,
-    textAlignVertical: 'top',
-    fontFamily: 'play-regular',
-    fontSize: THEME.FONT_SIZE_INPUT,
   },
-  buttons: {
-    width: '100%',
+  wrapButtons: {
     marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-around',

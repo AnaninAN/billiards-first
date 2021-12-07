@@ -1,24 +1,24 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { TypesGameStack } from './TypesGameStack'
-import { TypeGameScreen } from '../../screens/TypeGameScreen'
+import { TablesStack } from './TablesStack'
+import { TableScreen } from '../../screens/TableScreen'
 import { screenOptions } from '../screenOptions'
 
 const Modal = createStackNavigator()
 
-export const TypeGameModal = () => {
+export const TableModal = () => {
   return (
     <Modal.Navigator screenOptions={screenOptions}>
       <Modal.Group>
         <Modal.Screen
-          name="TypesGameStack"
-          component={TypesGameStack}
+          name="TablesStack"
+          component={TablesStack}
           options={{ headerShown: false }}
         />
       </Modal.Group>
       <Modal.Group screenOptions={{ presentation: 'modal' }}>
-        <Modal.Screen name="TypeGameScreen" component={TypeGameScreen} />
+        <Modal.Screen name="TableScreen" component={TableScreen} />
       </Modal.Group>
     </Modal.Navigator>
   )

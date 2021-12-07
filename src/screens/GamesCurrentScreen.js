@@ -11,6 +11,7 @@ import {
 import { loadGames, addGame } from '../store/actions/gameAction'
 import { loadTypesGame } from '../store/actions/typeAction'
 import { loadPlayers } from '../store/actions/playerAction'
+import { loadTables } from '../store/actions/tableAction'
 import { Game } from '../components/Game'
 import { CreateGameModal } from '../components/CreateGameModal'
 
@@ -24,6 +25,7 @@ export const GamesCurrentScreen = ({
     dispatch(loadGames())
     dispatch(loadTypesGame())
     dispatch(loadPlayers())
+    dispatch(loadTables())
   }, [dispatch])
 
   useLayoutEffect(() => {
