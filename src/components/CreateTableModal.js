@@ -11,11 +11,49 @@ import { Button, Input } from '@ui-kitten/components'
 
 import { AppTextBold } from './ui/AppTextBold'
 
+export const TableContent = ({
+  title,
+  nameInputState,
+  cancelHandler,
+  saveHandler,
+  dangerButtonName,
+  primaryButtonName,
+  disabled,
+}) => {
+  return (
+    <ScrollView>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.wrap}>
+          <AppTextBold style={styles.title}>{title}</AppTextBold>
+          <Input
+            style={styles.input}
+            size="large"
+            textStyle={{ fontSize: 18 }}
+            {...nameInputState}
+            placeholder="Введите название стола"
+            disabled={disabled}
+          />
+          {!disabled && (
+            <View style={styles.wrapButtons}>
+              <Button status="danger" onPress={cancelHandler}>
+                {dangerButtonName}
+              </Button>
+              <Button status="primary" onPress={saveHandler}>
+                {primaryButtonName}
+              </Button>
+            </View>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
+    </ScrollView>
+  )
+}
+
 export const CreateTableModal = ({ visible, onCancel, onSave }) => {
   const [name, setName] = useState('')
 
   const clearState = () => {
-    setName()
+    setName('')
   }
 
   const saveHandler = () => {
@@ -31,31 +69,14 @@ export const CreateTableModal = ({ visible, onCancel, onSave }) => {
 
   return (
     <Modal visible={visible} animationType="slide" transparent={false}>
-      <ScrollView>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={styles.wrap}>
-            <AppTextBold style={styles.title}>
-              Создание нового стола
-            </AppTextBold>
-            <Input
-              style={styles.input}
-              size="large"
-              textStyle={{ fontSize: 18 }}
-              onChangeText={setName}
-              value={name}
-              placeholder="Введите название стола"
-            />
-            <View style={styles.wrapButtons}>
-              <Button status="danger" onPress={cancelHandler}>
-                Отменить
-              </Button>
-              <Button status="primary" onPress={saveHandler}>
-                Создать
-              </Button>
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
-      </ScrollView>
+      <TableContent
+        title="Создание нового стола"
+        nameInputState={{ value: name, onChangeText: setName }}
+        cancelHandler={cancelHandler}
+        saveHandler={saveHandler}
+        dangerButtonName="Отменить"
+        primaryButtonName="Создать"
+      />
     </Modal>
   )
 }

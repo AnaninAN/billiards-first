@@ -1,9 +1,9 @@
-import React, { useLayoutEffect, useEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { View, StyleSheet, FlatList, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { loadTables, addTable } from '../store/actions/tableAction'
+import { addTable, removeTable } from '../store/actions/tableAction'
 import { Table } from '../components/Table'
 import { CreateTableModal } from '../components/CreateTableModal'
 
@@ -17,10 +17,6 @@ export const TablesScreen = ({
 }) => {
   const dispatch = useDispatch()
   const [modal, setModal] = useState(false)
-
-  useEffect(() => {
-    dispatch(loadTables())
-  }, [dispatch])
 
   useLayoutEffect(() => {
     setOptions({
@@ -41,6 +37,7 @@ export const TablesScreen = ({
   const toOpenGameHandler = (table) => {
     navigate('TableScreen', {
       table,
+      onRemove: removeHandler,
     })
   }
 
@@ -55,7 +52,13 @@ export const TablesScreen = ({
         text: 'Отмена',
         style: 'cancel',
       },
-      { text: 'Удалить', onPress: () => {} },
+      {
+        text: 'Удалить',
+        onPress: () => {
+          dispatch(removeTable(table))
+          navigate('TablesStack')
+        },
+      },
     ])
   }
 

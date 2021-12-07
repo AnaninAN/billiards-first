@@ -1,4 +1,4 @@
-import { ADD_TABLE, LOAD_TABLES } from '../types'
+import { ADD_TABLE, EDIT_TABLE, LOAD_TABLES, REMOVE_TABLE } from '../types'
 
 const initialState = {
   tables: [],
@@ -15,6 +15,23 @@ const handlers = {
     ...state,
     tables: [{ ...payload }, ...state.tables],
   }),
+  [REMOVE_TABLE]: (state, { payload }) => ({
+    ...state,
+    tables: state.tables.filter(({ id }) => id !== payload),
+  }),
+  [EDIT_TABLE]: (state, { payload }) => {
+    const index = state.tables.findIndex(({ id }) => id === payload.id)
+    const newTables = [
+      ...state.tables.slice(0, index),
+      payload,
+      ...state.tables.slice(index + 1),
+    ]
+
+    return {
+      ...state,
+      tables: newTables,
+    }
+  },
   DEFAULT: (state) => state,
 }
 
