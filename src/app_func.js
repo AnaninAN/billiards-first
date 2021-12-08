@@ -32,7 +32,7 @@ export class MyFunc {
           pocketedBallsP2 = 0
           if (++wonGamesP1 === games) {
             endGame = { active: false }
-            alert(rest.player1)
+            //alert(rest.player1)
           }
         }
 
@@ -45,7 +45,7 @@ export class MyFunc {
           pocketedBallsP1 = 0
           if (++wonGamesP2 === games) {
             endGame = { active: false }
-            alert(rest.player2)
+            //alert(rest.player2)
           }
         }
 

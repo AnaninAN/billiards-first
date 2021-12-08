@@ -13,9 +13,14 @@ export const loadGames = () => {
 }
 
 export const changeGame = (change) => {
+  if (change.oper) {
+    payload = MyFunc.changeGame(change)
+  } else {
+    payload = change
+  }
   return {
     type: CHANGE_GAME,
-    payload: MyFunc.changeGame(change),
+    payload,
   }
 }
 
@@ -23,7 +28,6 @@ export const addGame = (game) => {
   game.id = Date.now().toString()
   game.date = moment(new Date()).format('DD.MM.YYYY')
   game.active = true
-  //game.table = 'Стол 5 (ТВ-стол)'
   game.history = []
   return {
     type: ADD_GAME,

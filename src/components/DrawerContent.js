@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   logo: {
-    height: 100,
-    width: 100,
+    height: 150,
+    width: 150,
     borderRadius: 30,
     marginBottom: 20,
   },

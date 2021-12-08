@@ -11,6 +11,7 @@ export const loadPlayers = () => {
 
 export const addPlayer = (player) => {
   player.id = Date.now().toString()
+  player.active = false
   return {
     type: ADD_PLAYER,
     payload: player,

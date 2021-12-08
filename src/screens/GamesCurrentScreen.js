@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useEffect, useState } from 'react'
+import React, { useLayoutEffect, useEffect, useState, useRef } from 'react'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { StyleSheet, FlatList } from 'react-native'
 import { Layout } from '@ui-kitten/components'
@@ -8,18 +8,21 @@ import {
   AppIonicons,
   AppMaterialCommunityIcons,
 } from '../components/AppHeaderIcon'
-import { loadGames, addGame } from '../store/actions/gameAction'
+import { loadGames, addGame, changeGame } from '../store/actions/gameAction'
 import { loadTypesGame } from '../store/actions/typeAction'
-import { loadPlayers } from '../store/actions/playerAction'
-import { loadTables } from '../store/actions/tableAction'
+import { loadPlayers, editPlayer } from '../store/actions/playerAction'
+import { loadTables, editTable } from '../store/actions/tableAction'
 import { Game } from '../components/Game'
 import { CreateGameModal } from '../components/CreateGameModal'
+import { CreateTableForGameModal } from '../components/CreateTableForGameModal'
 
 export const GamesCurrentScreen = ({
   navigation: { setOptions, toggleDrawer, navigate },
 }) => {
   const dispatch = useDispatch()
   const [modal, setModal] = useState(false)
+  const [modalTable, setModalTable] = useState(false)
+  const idGameForTable = useRef()
 
   useEffect(() => {
     dispatch(loadGames())
@@ -45,16 +48,41 @@ export const GamesCurrentScreen = ({
   }, [])
 
   const toOpenGameHandler = (game) => {
-    navigate('GameCurrentScreen', {
-      idGame: game.id,
-    })
+    if (game.table) {
+      navigate('GameCurrentScreen', {
+        idGame: game.id,
+      })
+    } else {
+      idGameForTable.current = game.id
+      setModalTable(true)
+    }
   }
 
   const removeHandler = () => {}
 
+  const players = useSelector((state) => state.player.players)
+
   const saveHandler = (game) => {
     setModal(false)
     dispatch(addGame(game))
+
+    const player1 = players.find(({ id }) => id === game.player1.id)
+    player1.active = true
+    dispatch(editPlayer(player1))
+    const player2 = players.find(({ id }) => id === game.player2.id)
+    player2.active = true
+    dispatch(editPlayer(player2))
+  }
+
+  const tables = useSelector((state) => state.table.tables)
+
+  const changeHandler = (game) => {
+    setModalTable(false)
+    dispatch(changeGame(game))
+
+    const table = tables.find(({ name }) => name === game.table)
+    table.active = true
+    dispatch(editTable(table))
   }
 
   const gamesCurrent = useSelector((state) => state.game.gamesCurrent)
@@ -67,6 +95,13 @@ export const GamesCurrentScreen = ({
         onSave={saveHandler}
       />
 
+      <CreateTableForGameModal
+        visible={modalTable}
+        onCancel={() => setModalTable(false)}
+        onSave={changeHandler}
+        idGame={idGameForTable.current}
+      />
+
       <FlatList
         data={gamesCurrent}
         keyExtractor={(game) => game.id.toString()}
@@ -75,7 +110,7 @@ export const GamesCurrentScreen = ({
             data={item}
             onOpen={toOpenGameHandler}
             onRemove={removeHandler}
-            status="primary"
+            status={item.table ? 'primary' : 'warning'}
           />
         )}
       />

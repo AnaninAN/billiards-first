@@ -11,6 +11,7 @@ export const loadTables = () => {
 
 export const addTable = (table) => {
   table.id = Date.now().toString()
+  table.active = false
   return {
     type: ADD_TABLE,
     payload: table,
