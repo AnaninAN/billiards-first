@@ -11,7 +11,7 @@ export const Scoreboard = ({ games, balls, player1, player2, history }) => {
     <View>
       <View style={styles.container}>
         <AppCard style={styles.card1} color="#a0a0a0" bold>
-          {balls === 8 ? player1.pocketedBalls : 0}
+          {balls === 8 ? player1.pocketedBalls : player1.wonGames}
         </AppCard>
         <AppCard style={styles.card2} color={theme['color-warning-500']} bold>
           {balls === 8 ? player1.wonGames : player1.pocketedBalls}
@@ -23,7 +23,7 @@ export const Scoreboard = ({ games, balls, player1, player2, history }) => {
           {balls === 8 ? player2.wonGames : player2.pocketedBalls}
         </AppCard>
         <AppCard style={styles.card1} color="#a0a0a0" bold>
-          {balls === 8 ? player2.pocketedBalls : 0}
+          {balls === 8 ? player2.pocketedBalls : player2.wonGames}
         </AppCard>
       </View>
       <AppCard style={styles.card4} color={theme['color-info-500']}>

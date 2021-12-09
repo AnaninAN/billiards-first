@@ -50,14 +50,22 @@ export const GameCurrentScreen = ({
   const tables = useSelector((state) => state.table.tables)
 
   if (!game) {
+    let wonPlayer
+    //Освобождение стола
     const table = JSON.parse(
       JSON.stringify(tables.find(({ name }) => name === tableGame.current))
     )
     table.active = false
 
-    const { player1, player2 } = JSON.parse(
-      JSON.stringify(games.find(({ id }) => id === idGame))
-    )
+    const gameFinish = games.find(({ id }) => id === idGame)
+    //Победитель игры
+    if (gameFinish.player1.wonGames > gameFinish.player2.wonGames) {
+      wonPlayer = MyFunc.surnameNP(gameFinish.player1)
+    } else {
+      wonPlayer = MyFunc.surnameNP(gameFinish.player2)
+    }
+    //Освобождение игроков
+    const { player1, player2 } = JSON.parse(JSON.stringify(gameFinish))
     delete player1.wonGames
     delete player1.pocketedBalls
     delete player2.wonGames
@@ -78,7 +86,7 @@ export const GameCurrentScreen = ({
             endGame(table, player1, player2)
           }}
         >
-          Игра окончена
+          Выйграл {wonPlayer}!
         </Button>
       </Modal>
     )

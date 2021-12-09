@@ -22,7 +22,7 @@ export const GamesBottomTub = () => {
         name="GamesCurrentStack"
         component={GamesCurrentStack}
         options={{
-          tabBarLabel: 'Текущая',
+          tabBarLabel: 'Текущие',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="billiards" color={color} size={24} />
           ),

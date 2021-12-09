@@ -1,5 +1,3 @@
-import { Alert } from 'react-native'
-
 export class MyFunc {
   static surnameNP(player) {
     const { name, surname, patronymic } = player
@@ -28,11 +26,10 @@ export class MyFunc {
       case '+p1': {
         if (++pocketedBallsP1 === balls) {
           history.push(`${pocketedBallsP1}:${pocketedBallsP2}`)
-          pocketedBallsP1 = 0
-          pocketedBallsP2 = 0
+          // pocketedBallsP1 = 0
+          // pocketedBallsP2 = 0
           if (++wonGamesP1 === games) {
             endGame = { active: false }
-            //alert(rest.player1)
           }
         }
 
@@ -41,11 +38,10 @@ export class MyFunc {
       case '+p2': {
         if (++pocketedBallsP2 === balls) {
           history.push(`${pocketedBallsP1}:${pocketedBallsP2}`)
-          pocketedBallsP2 = 0
-          pocketedBallsP1 = 0
+          // pocketedBallsP2 = 0
+          // pocketedBallsP1 = 0
           if (++wonGamesP2 === games) {
             endGame = { active: false }
-            //alert(rest.player2)
           }
         }
 
