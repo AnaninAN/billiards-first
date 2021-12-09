@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-import { ADD_GAME, CHANGE_GAME, LOAD_GAMES } from '../types'
+import { ADD_GAME, CHANGE_GAME, LOAD_GAMES, REMOVE_GAME } from '../types'
 
 import { DATA_GAME } from '../../data'
 import { MyFunc } from '../../app_func'
@@ -32,5 +32,12 @@ export const addGame = (game) => {
   return {
     type: ADD_GAME,
     payload: game,
+  }
+}
+
+export const removeGame = (game) => {
+  return {
+    type: REMOVE_GAME,
+    payload: game.id,
   }
 }

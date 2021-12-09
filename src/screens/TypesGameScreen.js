@@ -28,7 +28,11 @@ export const TypesGameScreen = ({
       ),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={AppMaterialCommunityIcons}>
-          <Item title="New" iconName="new-box" onPress={() => setModal(true)} />
+          <Item
+            title="New"
+            iconName="gamepad-round"
+            onPress={() => setModal(true)}
+          />
         </HeaderButtons>
       ),
     })

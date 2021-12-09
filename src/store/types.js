@@ -11,6 +11,7 @@ export const EDIT_PLAYER = 'EDIT_PLAYER'
 export const LOAD_GAMES = 'LOAD_GAMES'
 export const CHANGE_GAME = 'CHANGE_GAME'
 export const ADD_GAME = 'ADD_GAME'
+export const REMOVE_GAME = 'REMOVE_GAME'
 
 export const LOAD_TABLES = 'LOAD_TABLES'
 export const ADD_TABLE = 'ADD_TABLE'

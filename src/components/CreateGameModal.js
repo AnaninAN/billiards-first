@@ -27,35 +27,50 @@ export const CreateGameModal = ({ visible, onCancel, onSave }) => {
     new IndexPath(0)
   )
 
+  const clearState = () => {
+    setSelectedIndexPlayer1(new IndexPath(0))
+    setSelectedIndexPlayer2(new IndexPath(0))
+  }
+
   const types = useSelector((state) => state.type.typesGame)
   const players = useSelector((state) => state.player.players)
 
-  const dataTypes = types.map((type) => ({
-    id: type.id,
-    name: type.name,
-  }))
-  const dataPlayers1 = players
-    .filter(({ active }) => !active)
-    .map((player) => ({
-      id: player.id,
-      name: `${player.surname} ${player.name} ${player.patronymic}`,
-    }))
-  const dataPlayers2 = players
-    .filter(({ active }) => !active)
-    .map((player) => ({
-      id: player.id,
-      name: `${player.surname} ${player.name} ${player.patronymic}`,
-    }))
+  const dataTypes = [
+    { id: 0, name: '<игра>' },
+    ...types.map((type) => ({
+      id: type.id,
+      name: type.name,
+    })),
+  ]
+  const dataPlayers1 = [
+    { id: 0, name: '<первый игрок>' },
+    ...players
+      .filter(({ active }) => !active)
+      .map((player) => ({
+        id: player.id,
+        name: `${player.surname} ${player.name} ${player.patronymic}`,
+      })),
+  ]
+  const dataPlayers2 = [
+    { id: 0, name: '<второй игрок>' },
+    ...players
+      .filter(({ active }) => !active)
+      .map((player) => ({
+        id: player.id,
+        name: `${player.surname} ${player.name} ${player.patronymic}`,
+      })),
+  ]
 
-  let displayValueTypeGame
-  let displayValuePlayer1
-  let displayValuePlayer2
+  const disabledButtonCreate =
+    selectedIndexTypeGame.row === 0 ||
+    selectedIndexPlayer1.row === 0 ||
+    selectedIndexPlayer2.row === 0 ||
+    dataPlayers1[selectedIndexPlayer1.row].name ===
+      dataPlayers2[selectedIndexPlayer2.row].name
 
-  if (visible && dataPlayers1.length && dataPlayers2.length) {
-    displayValueTypeGame = dataTypes[selectedIndexTypeGame.row].name
-    displayValuePlayer1 = dataPlayers1[selectedIndexPlayer1.row].name
-    displayValuePlayer2 = dataPlayers2[selectedIndexPlayer2.row].name
-  }
+  const displayValueTypeGame = dataTypes[selectedIndexTypeGame.row].name
+  const displayValuePlayer1 = dataPlayers1[selectedIndexPlayer1.row].name
+  const displayValuePlayer2 = dataPlayers2[selectedIndexPlayer2.row].name
 
   const renderOptionPerson = (title) => (
     <SelectItem key={title.id} title={title.name} accessoryLeft={PersonIcon} />
@@ -67,6 +82,7 @@ export const CreateGameModal = ({ visible, onCancel, onSave }) => {
 
   const cancelHandler = () => {
     onCancel()
+    clearState()
   }
 
   const saveHandler = () => {
@@ -105,8 +121,7 @@ export const CreateGameModal = ({ visible, onCancel, onSave }) => {
     const game = { ...typeGame, ...player1, ...player2 }
 
     onSave(game)
-    setSelectedIndexPlayer1(new IndexPath(0))
-    setSelectedIndexPlayer2(new IndexPath(0))
+    clearState()
   }
 
   return (
@@ -116,56 +131,47 @@ export const CreateGameModal = ({ visible, onCancel, onSave }) => {
       backdropStyle={styles.backdrop}
     >
       <Layout style={styles.container}>
-        {dataPlayers1.length && dataPlayers1.length ? (
-          <>
-            <Select
-              style={styles.select}
-              size="large"
-              selectedIndex={selectedIndexTypeGame}
-              onSelect={(index) => setSelectedIndexTypeGame(index)}
-              value={displayValueTypeGame}
-              label="Выберите игру"
-            >
-              {dataTypes.map(renderOptionStar)}
-            </Select>
-            <Select
-              style={styles.select}
-              size="large"
-              selectedIndex={selectedIndexPlayer1}
-              onSelect={(index) => setSelectedIndexPlayer1(index)}
-              value={displayValuePlayer1}
-              label="Выберите первого игрока"
-            >
-              {visible && dataPlayers1.map(renderOptionPerson)}
-            </Select>
-            <Select
-              style={styles.select}
-              size="large"
-              selectedIndex={selectedIndexPlayer2}
-              onSelect={(index) => setSelectedIndexPlayer2(index)}
-              value={displayValuePlayer2}
-              label="Выберите второго игрока"
-            >
-              {visible && dataPlayers2.map(renderOptionPerson)}
-            </Select>
-          </>
-        ) : (
-          <View style={styles.wrapText}>
-            <AppTextBold>Все игроки распределены по встречам!</AppTextBold>
-          </View>
-        )}
-
+        <Select
+          style={styles.select}
+          size="large"
+          selectedIndex={selectedIndexTypeGame}
+          onSelect={(index) => setSelectedIndexTypeGame(index)}
+          value={displayValueTypeGame}
+          label="Выберите игру"
+        >
+          {dataTypes.map(renderOptionStar)}
+        </Select>
+        <Select
+          style={styles.select}
+          size="large"
+          selectedIndex={selectedIndexPlayer1}
+          onSelect={(index) => setSelectedIndexPlayer1(index)}
+          value={displayValuePlayer1}
+          label="Выберите первого игрока"
+        >
+          {dataPlayers1.map(renderOptionPerson)}
+        </Select>
+        <Select
+          style={styles.select}
+          size="large"
+          selectedIndex={selectedIndexPlayer2}
+          onSelect={(index) => setSelectedIndexPlayer2(index)}
+          value={displayValuePlayer2}
+          label="Выберите второго игрока"
+        >
+          {dataPlayers2.map(renderOptionPerson)}
+        </Select>
         <Layout style={styles.wrapButtons}>
           <Button status="danger" onPress={cancelHandler}>
             Отмена
           </Button>
-          {dataPlayers1.length && dataPlayers1.length ? (
-            <Button status="primary" onPress={saveHandler}>
-              Создать
-            </Button>
-          ) : (
-            <></>
-          )}
+          <Button
+            disabled={disabledButtonCreate}
+            status="primary"
+            onPress={saveHandler}
+          >
+            Создать
+          </Button>
         </Layout>
       </Layout>
     </Modal>
@@ -186,10 +192,6 @@ const styles = StyleSheet.create({
   },
   select: {
     marginBottom: 20,
-  },
-  wrapText: {
-    marginBottom: 20,
-    alignItems: 'center',
   },
   wrapButtons: {
     flexDirection: 'row',

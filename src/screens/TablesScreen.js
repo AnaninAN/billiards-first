@@ -28,7 +28,11 @@ export const TablesScreen = ({
       ),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={AppMaterialCommunityIcons}>
-          <Item title="New" iconName="new-box" onPress={() => setModal(true)} />
+          <Item
+            title="New"
+            iconName="table-furniture"
+            onPress={() => setModal(true)}
+          />
         </HeaderButtons>
       ),
     })

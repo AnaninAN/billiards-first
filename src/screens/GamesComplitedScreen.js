@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import { StyleSheet, FlatList } from 'react-native'
+import { StyleSheet, FlatList, Image, View } from 'react-native'
 import { Layout } from '@ui-kitten/components'
 import { useSelector } from 'react-redux'
 
@@ -33,18 +33,27 @@ export const GamesComplitedScreen = ({
 
   return (
     <Layout style={styles.wrap}>
-      <FlatList
-        data={gamesComplited}
-        keyExtractor={(game) => game.id.toString()}
-        renderItem={({ item }) => (
-          <Game
-            data={item}
-            onOpen={toOpenGameHandler}
-            onRemove={removeHandler}
-            status="danger"
+      {gamesComplited.length ? (
+        <FlatList
+          data={gamesComplited}
+          keyExtractor={(game) => game.id.toString()}
+          renderItem={({ item }) => (
+            <Game
+              data={item}
+              onOpen={toOpenGameHandler}
+              onRemove={removeHandler}
+              status="danger"
+            />
+          )}
+        />
+      ) : (
+        <View style={styles.wrapLogo}>
+          <Image
+            style={styles.logo}
+            source={require('../../assets/logo-school.png')}
           />
-        )}
-      />
+        </View>
+      )}
     </Layout>
   )
 }
@@ -53,5 +62,15 @@ const styles = StyleSheet.create({
   wrap: {
     flex: 1,
     padding: 15,
+  },
+  wrapLogo: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    borderRadius: 50,
   },
 })

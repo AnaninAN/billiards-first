@@ -27,8 +27,12 @@ export const PlayersScreen = ({
         </HeaderButtons>
       ),
       headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={AppMaterialCommunityIcons}>
-          <Item title="New" iconName="new-box" onPress={() => setModal(true)} />
+        <HeaderButtons HeaderButtonComponent={AppIonicons}>
+          <Item
+            title="New"
+            iconName="person-add"
+            onPress={() => setModal(true)}
+          />
         </HeaderButtons>
       ),
     })

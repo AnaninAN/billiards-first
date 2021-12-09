@@ -6,7 +6,10 @@ import { useDispatch } from 'react-redux'
 import { MyFunc } from '../app_func'
 
 import { PlayerContent } from '../components/CreatePlayerModal'
-import { AppMaterialCommunityIcons } from '../components/AppHeaderIcon'
+import {
+  AppMaterialCommunityIcons,
+  AppFontAwesome5,
+} from '../components/AppHeaderIcon'
 import { editPlayer } from '../store/actions/playerAction'
 
 LogBox.ignoreLogs([
@@ -31,12 +34,12 @@ export const PlayerScreen = ({ route, navigation: { goBack, setOptions } }) => {
         disabled && (
           <HeaderButtons HeaderButtonComponent={AppMaterialCommunityIcons}>
             <Item
-              title="New"
-              iconName="file-document-edit"
+              title="Edit"
+              iconName="account-edit"
               onPress={() => setDisabled(false)}
             />
             <Item
-              title="New"
+              title="Delete"
               iconName="delete-forever"
               onPress={() => {
                 onRemove(route.params.player)

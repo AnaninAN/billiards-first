@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import { StyleSheet, FlatList } from 'react-native'
+import { StyleSheet, FlatList, Image, View, Alert } from 'react-native'
 import { Layout } from '@ui-kitten/components'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -8,13 +8,19 @@ import {
   AppIonicons,
   AppMaterialCommunityIcons,
 } from '../components/AppHeaderIcon'
-import { loadGames, addGame, changeGame } from '../store/actions/gameAction'
+import {
+  loadGames,
+  addGame,
+  changeGame,
+  removeGame,
+} from '../store/actions/gameAction'
 import { loadTypesGame } from '../store/actions/typeAction'
 import { loadPlayers, editPlayer } from '../store/actions/playerAction'
 import { loadTables, editTable } from '../store/actions/tableAction'
 import { Game } from '../components/Game'
 import { CreateGameModal } from '../components/CreateGameModal'
 import { CreateTableForGameModal } from '../components/CreateTableForGameModal'
+import { MyFunc } from '../app_func'
 
 export const GamesCurrentScreen = ({
   navigation: { setOptions, toggleDrawer, navigate },
@@ -41,7 +47,11 @@ export const GamesCurrentScreen = ({
       ),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={AppMaterialCommunityIcons}>
-          <Item title="New" iconName="new-box" onPress={() => setModal(true)} />
+          <Item
+            title="New"
+            iconName="gamepad-down"
+            onPress={() => setModal(true)}
+          />
         </HeaderButtons>
       ),
     })
@@ -58,7 +68,50 @@ export const GamesCurrentScreen = ({
     }
   }
 
-  const removeHandler = () => {}
+  const tables = useSelector((state) => state.table.tables)
+  const games = useSelector((state) => state.game.allGames)
+
+  const removeHandler = (game) => {
+    Alert.alert(
+      'Удаление игры',
+      `Удалить игру "${game.name}": ${MyFunc.surnameNP(
+        game.player1
+      )} VS ${MyFunc.surnameNP(game.player2)}?`,
+      [
+        {
+          text: 'Отмена',
+          style: 'cancel',
+        },
+        {
+          text: 'Удалить',
+          onPress: () => {
+            dispatch(removeGame(game))
+            navigate('GamesCurrentStack')
+            //Освобождение стола, если назначен
+            if (game.table) {
+              const table = JSON.parse(
+                JSON.stringify(tables.find(({ name }) => name === game.table))
+              )
+              table.active = false
+              dispatch(editTable(table))
+            }
+            //Освобождение игроков
+            const { player1, player2 } = JSON.parse(
+              JSON.stringify(games.find(({ id }) => id === game.id))
+            )
+            delete player1.wonGames
+            delete player1.pocketedBalls
+            delete player2.wonGames
+            delete player2.pocketedBalls
+            player1.active = false
+            player2.active = false
+            dispatch(editPlayer(player1))
+            dispatch(editPlayer(player2))
+          },
+        },
+      ]
+    )
+  }
 
   const players = useSelector((state) => state.player.players)
 
@@ -73,8 +126,6 @@ export const GamesCurrentScreen = ({
     player2.active = true
     dispatch(editPlayer(player2))
   }
-
-  const tables = useSelector((state) => state.table.tables)
 
   const changeHandler = (game) => {
     setModalTable(false)
@@ -102,18 +153,27 @@ export const GamesCurrentScreen = ({
         idGame={idGameForTable.current}
       />
 
-      <FlatList
-        data={gamesCurrent}
-        keyExtractor={(game) => game.id.toString()}
-        renderItem={({ item }) => (
-          <Game
-            data={item}
-            onOpen={toOpenGameHandler}
-            onRemove={removeHandler}
-            status={item.table ? 'primary' : 'warning'}
+      {gamesCurrent.length ? (
+        <FlatList
+          data={gamesCurrent}
+          keyExtractor={(game) => game.id.toString()}
+          renderItem={({ item }) => (
+            <Game
+              data={item}
+              onOpen={toOpenGameHandler}
+              onRemove={removeHandler}
+              status={item.table ? 'primary' : 'warning'}
+            />
+          )}
+        />
+      ) : (
+        <View style={styles.wrapLogo}>
+          <Image
+            style={styles.logo}
+            source={require('../../assets/logo-school.png')}
           />
-        )}
-      />
+        </View>
+      )}
     </Layout>
   )
 }
@@ -122,5 +182,15 @@ const styles = StyleSheet.create({
   wrap: {
     flex: 1,
     padding: 15,
+  },
+  wrapLogo: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    borderRadius: 50,
   },
 })

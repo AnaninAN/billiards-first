@@ -23,21 +23,26 @@ export const CreateTableForGameModal = ({
 }) => {
   const [selectedIndexTable, setSelectedIndexTable] = useState(new IndexPath(0))
 
+  const clearState = () => {
+    setSelectedIndexTable(new IndexPath(0))
+  }
+
   const gamesCurrent = useSelector((state) => state.game.gamesCurrent)
   const tables = useSelector((state) => state.table.tables)
 
-  const dataTables = tables
-    .filter(({ active }) => !active)
-    .map((table) => ({
-      id: table.id,
-      name: table.name,
-    }))
+  const dataTables = [
+    { id: 0, name: '<стол>' },
+    ...tables
+      .filter(({ active }) => !active)
+      .map((table) => ({
+        id: table.id,
+        name: table.name,
+      })),
+  ]
 
-  let displayValueTable
+  const disabledButtonCreate = selectedIndexTable.row === 0
 
-  if (visible && dataTables.length) {
-    displayValueTable = dataTables[selectedIndexTable.row].name
-  }
+  const displayValueTable = dataTables[selectedIndexTable.row].name
 
   const renderOptionSpeaker = (title) => (
     <SelectItem key={title.id} title={title.name} accessoryLeft={SpeakerIcon} />
@@ -45,6 +50,7 @@ export const CreateTableForGameModal = ({
 
   const cancelHandler = () => {
     onCancel()
+    clearState()
   }
 
   const saveHandler = () => {
@@ -59,7 +65,7 @@ export const CreateTableForGameModal = ({
     const game = { ...gameCurrent, ...table }
 
     onSave(game)
-    setSelectedIndexTable(new IndexPath(0))
+    clearState()
   }
 
   return (
@@ -69,32 +75,27 @@ export const CreateTableForGameModal = ({
       backdropStyle={styles.backdrop}
     >
       <Layout style={styles.container}>
-        {dataTables.length ? (
-          <Select
-            style={styles.select}
-            size="large"
-            selectedIndex={selectedIndexTable}
-            onSelect={(index) => setSelectedIndexTable(index)}
-            value={displayValueTable}
-            label="Выберите стол"
-          >
-            {visible && dataTables.map(renderOptionSpeaker)}
-          </Select>
-        ) : (
-          <View style={styles.wrapText}>
-            <AppTextBold>Все столы заняты!</AppTextBold>
-          </View>
-        )}
-
+        <Select
+          style={styles.select}
+          size="large"
+          selectedIndex={selectedIndexTable}
+          onSelect={(index) => setSelectedIndexTable(index)}
+          value={displayValueTable}
+          label="Выберите стол"
+        >
+          {dataTables.map(renderOptionSpeaker)}
+        </Select>
         <Layout style={styles.wrapButtons}>
           <Button status="danger" onPress={cancelHandler}>
             Отмена
           </Button>
-          {dataTables.length && (
-            <Button status="primary" onPress={saveHandler}>
-              Назначить
-            </Button>
-          )}
+          <Button
+            disabled={disabledButtonCreate}
+            status="primary"
+            onPress={saveHandler}
+          >
+            Назначить
+          </Button>
         </Layout>
       </Layout>
     </Modal>
@@ -115,10 +116,6 @@ const styles = StyleSheet.create({
   },
   select: {
     marginBottom: 20,
-  },
-  wrapText: {
-    marginBottom: 20,
-    alignItems: 'center',
   },
   wrapButtons: {
     flexDirection: 'row',

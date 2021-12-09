@@ -15,7 +15,7 @@ export const DrawerContent = (props) => (
     >
       <View style={styles.wrapLogo}>
         <Image
-          source={require('../../assets/logo-sherlock-white.png')}
+          source={require('../../assets/logo-sherlock-white-2.png')}
           style={styles.logo}
         />
       </View>
@@ -34,14 +34,14 @@ const styles = StyleSheet.create({
     backgroundColor: theme['color-primary-600'],
   },
   wrapLogo: {
-    paddingLeft: 30,
-    paddingTop: 20,
+    paddingLeft: 50,
+    paddingTop: 10,
     paddingBottom: 10,
   },
   logo: {
     height: 150,
     width: 150,
-    borderRadius: 30,
+    borderRadius: 50,
     marginBottom: 20,
   },
   wrapMenu: {
