@@ -1,33 +1,40 @@
 import { ADD_PLAYER, EDIT_PLAYER, LOAD_PLAYERS, REMOVE_PLAYER } from '../types'
 
-import { DATA_PLAYER } from '../../data'
+import { MongoDB } from '../../services/MongoDB'
 
-export const loadPlayers = () => {
-  return {
+export const loadPlayers = () => async (dispatch) => {
+  const players = await MongoDB.get('Players')
+
+  dispatch({
     type: LOAD_PLAYERS,
-    payload: DATA_PLAYER,
-  }
+    payload: players,
+  })
 }
 
-export const addPlayer = (player) => {
-  player.id = Date.now().toString()
+export const addPlayer = (player) => async (dispatch) => {
   player.active = false
-  return {
+  player.id = await MongoDB.post('Players', player)
+
+  dispatch({
     type: ADD_PLAYER,
     payload: player,
-  }
+  })
 }
 
-export const removePlayer = (player) => {
-  return {
+export const removePlayer = (player) => async (dispatch) => {
+  await MongoDB.remove('Players', player.id)
+
+  dispatch({
     type: REMOVE_PLAYER,
     payload: player.id,
-  }
+  })
 }
 
-export const editPlayer = (player) => {
-  return {
+export const editPlayer = (player) => async (dispatch) => {
+  await MongoDB.patch('Players', player.id, player)
+
+  dispatch({
     type: EDIT_PLAYER,
     payload: player,
-  }
+  })
 }

@@ -11,8 +11,6 @@ import {
 } from '@ui-kitten/components'
 import { useSelector } from 'react-redux'
 
-import { AppTextBold } from '../components/ui/AppTextBold'
-
 const SpeakerIcon = (props) => <Icon {...props} name="speaker-outline" />
 
 export const CreateTableForGameModal = ({

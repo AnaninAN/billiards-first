@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 
 import { typeReducer } from './reducers/typeReducer'
 import { playerReducer } from './reducers/playerReducer'
@@ -12,4 +13,4 @@ const rootReducer = combineReducers({
   table: tableReducer,
 })
 
-export default createStore(rootReducer)
+export default createStore(rootReducer, applyMiddleware(thunk))
