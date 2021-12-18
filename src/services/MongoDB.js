@@ -1,4 +1,8 @@
-const _URL = 'http://192.168.31.226:9000/'
+import io from 'socket.io-client'
+
+const _URL = 'http://192.168.43.135:9002'
+
+export const socket = io(_URL)
 
 const _transform = (collection) => {
   if (collection === 'Types') {
@@ -61,7 +65,7 @@ export class MongoDB {
 
   static async get(collection) {
     try {
-      const types = await request(`${_URL}${collection}`, 'GET')
+      const types = await request(`${_URL}/${collection}`, 'GET')
       return types.map(_transform(collection))
     } catch (e) {
       console.log(e)
@@ -71,7 +75,8 @@ export class MongoDB {
 
   static async post(collection, data = {}) {
     try {
-      return await request(`${_URL}${collection}`, 'POST', data)
+      const res = await request(`${_URL}/${collection}`, 'POST', data)
+      return res
     } catch (e) {
       console.log(e)
     }
@@ -79,7 +84,7 @@ export class MongoDB {
 
   static async remove(collection, id) {
     try {
-      return await request(`${_URL}${collection}/${id}`, 'DELETE')
+      return await request(`${_URL}/${collection}/${id}`, 'DELETE')
     } catch (e) {
       console.log(e)
     }
@@ -87,7 +92,7 @@ export class MongoDB {
 
   static async patch(collection, id, data = {}) {
     try {
-      return await request(`${_URL}${collection}/${id}`, 'PATCH', data)
+      return await request(`${_URL}/${collection}/${id}`, 'PATCH', data)
     } catch (e) {
       console.log(e)
     }

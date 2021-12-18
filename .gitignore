@@ -1,5 +1,6 @@
 node_modules/
 server/node_modules/
+scoreboard/node_modules/
 .expo/
 dist/
 npm-debug.*

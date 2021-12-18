@@ -2,7 +2,7 @@ import moment from 'moment'
 
 import { ADD_GAME, CHANGE_GAME, LOAD_GAMES, REMOVE_GAME } from '../types'
 
-import { MongoDB } from '../../services/MongoDB'
+import { MongoDB, socket } from '../../services/MongoDB'
 import { MyFunc } from '../../app_func'
 
 export const loadGames = () => async (dispatch) => {
@@ -11,6 +11,30 @@ export const loadGames = () => async (dispatch) => {
   dispatch({
     type: LOAD_GAMES,
     payload: games,
+  })
+
+  //Добавление игры
+  socket.on('add Game', (game) => {
+    dispatch({
+      type: ADD_GAME,
+      payload: game,
+    })
+  })
+
+  //Удаление игры
+  socket.on('remove Game', (id) => {
+    dispatch({
+      type: REMOVE_GAME,
+      payload: id,
+    })
+  })
+
+  //Изменение игры
+  socket.on('change Game', (game) => {
+    dispatch({
+      type: CHANGE_GAME,
+      payload: game,
+    })
   })
 }
 
@@ -27,6 +51,8 @@ export const changeGame = (game) => async (dispatch) => {
     type: CHANGE_GAME,
     payload,
   })
+
+  socket.emit('change Game', payload)
 }
 
 export const addGame = (game) => async (dispatch) => {
@@ -35,10 +61,12 @@ export const addGame = (game) => async (dispatch) => {
   game.history = []
   game.id = await MongoDB.post('Games', game)
 
-  dispatch({
-    type: ADD_GAME,
-    payload: game,
-  })
+  // dispatch({
+  //   type: ADD_GAME,
+  //   payload: game,
+  // })
+
+  socket.emit('add Game', game)
 }
 
 export const removeGame = (game) => async (dispatch) => {
@@ -48,4 +76,6 @@ export const removeGame = (game) => async (dispatch) => {
     type: REMOVE_GAME,
     payload: game.id,
   })
+
+  socket.emit('remove Game', game.id)
 }
