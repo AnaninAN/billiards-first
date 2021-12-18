@@ -23,7 +23,7 @@ export const Game = (props) => {
         Дата встречи: {date}
       </AppText>
       <AppTextBold style={{ marginTop: 5, color: theme['color-danger-900'] }}>
-        {table ? table : 'Стол не назначен!'}
+        {table ? table.name : 'Стол не назначен!'}
       </AppTextBold>
     </AppTouchableOpacityCard>
   )

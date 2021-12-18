@@ -29,8 +29,8 @@ const gameSchema = new Schema(
       required: true,
     },
     table: {
-      type: String,
-      required: false,
+      id: { type: String, required: false },
+      name: { type: String, required: false },
     },
     player1: {
       id: {

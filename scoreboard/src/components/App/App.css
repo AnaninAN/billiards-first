@@ -1,0 +1,84 @@
+.container {
+  width: 600px;
+  height: 60px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scoreboard {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+}
+
+.table {
+  width: 148px;
+  height: 15px;
+  background-color: rgb(105, 6, 6);
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.history {
+  width: 100%;
+  height: 15px;
+  background-color: #48484d;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+}
+
+.cell {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 5px 0 5px;
+  background-color: rgb(158, 156, 12);
+  font-weight: 900;
+}
+
+.player1 {
+  width: 180px;
+  justify-content: flex-start;
+  background-color: #2c2c2e;
+  color: #fff;
+  font-size: 18px;
+}
+
+.player2 {
+  width: 180px;
+  justify-content: flex-end;
+  background-color: #2c2c2e;
+  color: #fff;
+  font-size: 18px;
+}
+
+.ball-first {
+  width: 30px;
+  justify-content: center;
+  font-size: 23px;
+  background-color: #2c2c2e;
+  color: #fff;
+}
+
+.ball-second {
+  width: 30px;
+  justify-content: center;
+  font-size: 23px;
+}
+
+.game {
+  width: 60px;
+  justify-content: center;
+  font-size: 24px;
+}

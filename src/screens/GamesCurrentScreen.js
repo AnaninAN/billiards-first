@@ -68,7 +68,6 @@ export const GamesCurrentScreen = ({
     }
   }
 
-  const tables = useSelector((state) => state.table.tables)
   const games = useSelector((state) => state.game.allGames)
 
   const removeHandler = (game) => {
@@ -89,9 +88,7 @@ export const GamesCurrentScreen = ({
             navigate('GamesCurrentStack')
             //Освобождение стола, если назначен
             if (game.table) {
-              const table = JSON.parse(
-                JSON.stringify(tables.find(({ name }) => name === game.table))
-              )
+              const table = JSON.parse(JSON.stringify(game.table))
               table.active = false
               dispatch(editTable(table))
             }
@@ -131,7 +128,7 @@ export const GamesCurrentScreen = ({
     setModalTable(false)
     dispatch(changeGame(game))
 
-    const table = tables.find(({ name }) => name === game.table)
+    const table = game.table
     table.active = true
     dispatch(editTable(table))
   }

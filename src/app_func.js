@@ -19,15 +19,12 @@ export class MyFunc {
 
     let endGame
 
-    const alert = (player) =>
-      Alert.alert(`Встречу выйграл ${MyFunc.surnameNP(player)}`)
-
     switch (oper) {
       case '+p1': {
         if (++pocketedBallsP1 === balls) {
           history.push(`${pocketedBallsP1}:${pocketedBallsP2}`)
-          // pocketedBallsP1 = 0
-          // pocketedBallsP2 = 0
+          pocketedBallsP1 = 0
+          pocketedBallsP2 = 0
           if (++wonGamesP1 === games) {
             endGame = { active: false }
           }
@@ -38,8 +35,8 @@ export class MyFunc {
       case '+p2': {
         if (++pocketedBallsP2 === balls) {
           history.push(`${pocketedBallsP1}:${pocketedBallsP2}`)
-          // pocketedBallsP2 = 0
-          // pocketedBallsP1 = 0
+          pocketedBallsP2 = 0
+          pocketedBallsP1 = 0
           if (++wonGamesP2 === games) {
             endGame = { active: false }
           }

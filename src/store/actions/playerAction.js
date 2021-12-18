@@ -39,10 +39,10 @@ export const addPlayer = (player) => async (dispatch) => {
   player.active = false
   player.id = await MongoDB.post('Players', player)
 
-  // dispatch({
-  //   type: ADD_PLAYER,
-  //   payload: player,
-  // })
+  dispatch({
+    type: ADD_PLAYER,
+    payload: player,
+  })
 
   socket.emit('add player', player)
 }
@@ -50,10 +50,10 @@ export const addPlayer = (player) => async (dispatch) => {
 export const removePlayer = (player) => async (dispatch) => {
   await MongoDB.remove('Players', player.id)
 
-  // dispatch({
-  //   type: REMOVE_PLAYER,
-  //   payload: player.id,
-  // })
+  dispatch({
+    type: REMOVE_PLAYER,
+    payload: player.id,
+  })
 
   socket.emit('remove player', player.id)
 }
@@ -61,10 +61,10 @@ export const removePlayer = (player) => async (dispatch) => {
 export const editPlayer = (player) => async (dispatch) => {
   await MongoDB.patch('Players', player.id, player)
 
-  // dispatch({
-  //   type: EDIT_PLAYER,
-  //   payload: player,
-  // })
+  dispatch({
+    type: EDIT_PLAYER,
+    payload: player,
+  })
 
   socket.emit('edit player', player)
 }

@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
-import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native'
-import { Button, Icon, Modal } from '@ui-kitten/components'
+import { View, StyleSheet } from 'react-native'
+import { Button, Icon, Modal, Spinner } from '@ui-kitten/components'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { AppTextBold } from '../components/ui/AppTextBold'
@@ -16,13 +16,22 @@ const PlusIcon = (props) => <Icon {...props} name="plus" />
 
 const MinusIcon = (props) => <Icon {...props} name="minus" />
 
+const LoadingIndicator = (props) => (
+  <View style={[props.style, styles.indicator]}>
+    <Spinner size="small" />
+  </View>
+)
+
 export const GameCurrentScreen = ({
   route,
   navigation: { setOptions, goBack },
 }) => {
   const dispatch = useDispatch()
+
   const tableGame = useRef()
+  const pressButton = useRef()
   const [modal, setModal] = useState(true)
+  const [disable, setDisable] = useState(false)
   const { idGame } = route.params
   const game = useSelector((state) =>
     state.game.gamesCurrent.find((game) => game.id === idGame)
@@ -31,13 +40,19 @@ export const GameCurrentScreen = ({
   useLayoutEffect(() => {
     tableGame.current = game.table
     setOptions({
-      title: `${game.table} online`,
+      title: `${game.table.name} online`,
     })
   }, [])
 
-  const onChangeGame = (oper) => {
+  const onChangeGame = async (oper) => {
     const change = { ...game, oper }
-    dispatch(changeGame(change))
+    pressButton.current = oper
+    setDisable(true)
+    await dispatch(changeGame(change))
+    setTimeout(() => {
+      pressButton.current = ''
+      setDisable(false)
+    }, 1000)
   }
 
   const endGame = (table, player1, player2) => {
@@ -47,14 +62,11 @@ export const GameCurrentScreen = ({
   }
 
   const games = useSelector((state) => state.game.allGames)
-  const tables = useSelector((state) => state.table.tables)
 
   if (!game) {
     let wonPlayer
     //Освобождение стола
-    const table = JSON.parse(
-      JSON.stringify(tables.find(({ name }) => name === tableGame.current))
-    )
+    const table = JSON.parse(JSON.stringify(tableGame.current))
     table.active = false
 
     const gameFinish = games.find(({ id }) => id === idGame)
@@ -113,15 +125,21 @@ export const GameCurrentScreen = ({
           style={styles.buttons}
           size="giant"
           status="primary"
-          accessoryLeft={PlusIcon}
+          accessoryLeft={
+            pressButton.current === '+p1' ? LoadingIndicator : PlusIcon
+          }
           onPress={() => onChangeGame('+p1')}
+          disabled={disable}
         />
         <Button
           style={styles.buttons}
           size="giant"
           status="primary"
-          accessoryLeft={PlusIcon}
+          accessoryLeft={
+            pressButton.current === '+p2' ? LoadingIndicator : PlusIcon
+          }
           onPress={() => onChangeGame('+p2')}
+          disabled={disable}
         />
       </View>
       <View style={styles.wrapButtons}>
@@ -129,15 +147,21 @@ export const GameCurrentScreen = ({
           style={styles.buttons}
           size="giant"
           status="danger"
-          accessoryLeft={MinusIcon}
+          accessoryLeft={
+            pressButton.current === '-p1' ? LoadingIndicator : MinusIcon
+          }
           onPress={() => onChangeGame('-p1')}
+          disabled={disable}
         />
         <Button
           style={styles.buttons}
           size="giant"
           status="danger"
-          accessoryLeft={MinusIcon}
+          accessoryLeft={
+            pressButton.current === '-p2' ? LoadingIndicator : MinusIcon
+          }
           onPress={() => onChangeGame('-p2')}
+          disabled={disable}
         />
       </View>
     </View>

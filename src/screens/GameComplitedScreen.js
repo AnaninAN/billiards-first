@@ -16,7 +16,7 @@ export const GameComplitedScreen = ({ route, navigation: { setOptions } }) => {
 
   useLayoutEffect(() => {
     setOptions({
-      title: `${game.table} offline`,
+      title: `${game.table.name} offline`,
     })
   }, [])
 

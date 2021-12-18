@@ -61,10 +61,10 @@ export const addGame = (game) => async (dispatch) => {
   game.history = []
   game.id = await MongoDB.post('Games', game)
 
-  // dispatch({
-  //   type: ADD_GAME,
-  //   payload: game,
-  // })
+  dispatch({
+    type: ADD_GAME,
+    payload: game,
+  })
 
   socket.emit('add Game', game)
 }

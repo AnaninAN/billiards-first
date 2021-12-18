@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import {
   Layout,
   Select,
@@ -56,11 +56,12 @@ export const CreateTableForGameModal = ({
     const tableCurrent = tables.filter(
       ({ id }) => id === dataTables[selectedIndexTable.row].id
     )
-    const table = tableCurrent.map(({ name }) => ({
-      table: name,
+    const table = tableCurrent.map(({ id, name }) => ({
+      id,
+      name,
     }))[0]
 
-    const game = { ...gameCurrent, ...table }
+    const game = { ...gameCurrent, table }
 
     onSave(game)
     clearState()
