@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 
-const _URL = 'http://192.168.43.135:5000'
+const _URL = 'http://192.168.31.226:5000'
 
 export const socket = io(_URL)
 

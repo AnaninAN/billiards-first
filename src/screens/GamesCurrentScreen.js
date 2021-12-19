@@ -153,7 +153,7 @@ export const GamesCurrentScreen = ({
       {gamesCurrent.length ? (
         <FlatList
           data={gamesCurrent}
-          keyExtractor={(game) => game.id.toString()}
+          keyExtractor={(game) => game.id}
           renderItem={({ item }) => (
             <Game
               data={item}

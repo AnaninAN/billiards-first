@@ -52,7 +52,7 @@ export const GameCurrentScreen = ({
     setTimeout(() => {
       pressButton.current = ''
       setDisable(false)
-    }, 1000)
+    }, 500)
   }
 
   const endGame = (table, player1, player2) => {

@@ -36,7 +36,7 @@ export const GamesComplitedScreen = ({
       {gamesComplited.length ? (
         <FlatList
           data={gamesComplited}
-          keyExtractor={(game) => game.id.toString()}
+          keyExtractor={(game) => game.id}
           renderItem={({ item }) => (
             <Game
               data={item}

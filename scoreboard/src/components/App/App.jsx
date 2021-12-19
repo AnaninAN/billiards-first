@@ -2,7 +2,6 @@ import './App.css'
 
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
 
 import { MyFunc } from '../../app_func'
 
@@ -27,10 +26,11 @@ export const App = () => {
   })
 
   const subscribe = async () => {
-    try {
-      const { data } = await axios.get(
-        `${_URL}/games/${params.scoreboard}/${params.id}`
-      )
+    const eventSource = new EventSource(
+      `${_URL}/games/${params.scoreboard}/${params.id}`
+    )
+    eventSource.onmessage = function (event) {
+      const data = JSON.parse(event.data)
 
       setName1(MyFunc.surnameNP(data.player1))
       setName2(MyFunc.surnameNP(data.player2))
@@ -42,12 +42,6 @@ export const App = () => {
       setGames(data.games)
       setHistory(data.history)
       setTable(data.table.name)
-
-      await subscribe()
-    } catch (e) {
-      setTimeout(() => {
-        subscribe()
-      }, 5000)
     }
   }
 

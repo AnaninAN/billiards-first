@@ -13,14 +13,19 @@ routerGame.get('/', async (req, res) => {
 })
 
 routerGame.get('/scoreboard/:id', async (req, res) => {
-  emitter.once('game', (game) => {
-    if (game.table.id === req.params.id) {
-      res.json(game)
-    } else {
-      res.json({})
-    }
+  res.writeHead(200, {
+    Connection: 'keep-alive',
+    'Content-type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
   })
-  //emitter.removeAllListeners()
+
+  emitter.on('game', (game) => {
+    if (game.table && game.table.id === req.params.id) {
+      res.write(`data: ${JSON.stringify(game)} \n\n`)
+      return
+    }
+    res.write(`data: ${{}} \n\n`)
+  })
 })
 
 routerGame.get('/:id', async (req, res) => {
