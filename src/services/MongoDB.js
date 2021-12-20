@@ -7,12 +7,12 @@ export const socket = io(_URL)
 
 const _transform = (collection) => {
   if (collection === 'Type-Games') {
-    return (typeGames) => ({
-      id: typeGames._id,
-      name: typeGames.name,
-      desc: typeGames.desc,
-      games: typeGames.games,
-      balls: typeGames.balls,
+    return (type) => ({
+      id: type._id,
+      name: type.name,
+      desc: type.desc,
+      games: type.games,
+      balls: type.balls,
     })
   }
   if (collection === 'Tables') {

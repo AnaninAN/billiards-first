@@ -10,60 +10,49 @@ import { _URL } from '../../config'
 export const App = () => {
   const params = useParams()
 
-  const [name1, setName1] = useState('')
-  const [name2, setName2] = useState('')
-  const [pocketedBalls1, setPocketedBalls1] = useState('')
-  const [pocketedBalls2, setPocketedBalls2] = useState('')
-  const [wonGames1, setWonGames1] = useState('')
-  const [wonGames2, setWonGames2] = useState('')
-  const [balls, setBalls] = useState()
-  const [games, setGames] = useState()
-  const [history, setHistory] = useState([])
-  const [table, setTable] = useState('')
+  const [game, setGame] = useState({})
 
   useEffect(() => {
     subscribe()
   })
 
+  const eventSource = new EventSource(
+    `${_URL}/games/${params.scoreboard}/${params.id}`
+  )
+
   const subscribe = async () => {
-    const eventSource = new EventSource(
-      `${_URL}/games/${params.scoreboard}/${params.id}`
-    )
     eventSource.onmessage = function (event) {
       const data = JSON.parse(event.data)
 
-      setName1(MyFunc.surnameNP(data.player1))
-      setName2(MyFunc.surnameNP(data.player2))
-      setPocketedBalls1(data.player1.pocketedBalls)
-      setPocketedBalls2(data.player2.pocketedBalls)
-      setWonGames1(data.player1.wonGames)
-      setWonGames2(data.player2.wonGames)
-      setBalls(data.balls)
-      setGames(data.games)
-      setHistory(data.history)
-      setTable(data.table.name)
+      setGame(data)
     }
   }
 
+  if (!Object.keys(game).length) {
+    return null
+  }
+
+  const { table, player1, player2, games, balls, history } = game
+
   return (
     <div className="container">
-      <div className="table">{table}</div>
+      <div className="table">{table.name}</div>
       <div className="scoreboard">
-        <div className="cell player1">{name1}</div>
+        <div className="cell player1">{MyFunc.surnameNP(player1)}</div>
         <div className="cell ball-first">
-          {balls === 8 ? pocketedBalls1 : wonGames1}
+          {balls === 8 ? player1.pocketedBalls : player1.wonGames}
         </div>
         <div className="cell ball-second">
-          {balls === 8 ? wonGames1 : pocketedBalls1}
+          {balls === 8 ? player1.wonGames : player1.pocketedBalls}
         </div>
-        <div className="cell game"> ({balls === 8 ? games : balls})</div>
+        <div className="cell game">({balls === 8 ? games : balls})</div>
         <div className="cell ball-second">
-          {balls === 8 ? wonGames2 : pocketedBalls2}
+          {balls === 8 ? player2.wonGames : player2.pocketedBalls}
         </div>
         <div className="cell ball-first">
-          {balls === 8 ? pocketedBalls2 : wonGames2}
+          {balls === 8 ? player2.pocketedBalls : player2.wonGames}
         </div>
-        <div className="cell player2">{name2}</div>
+        <div className="cell player2">{MyFunc.surnameNP(player2)}</div>
       </div>
       <div className="history">{history.join(', ')}</div>
     </div>

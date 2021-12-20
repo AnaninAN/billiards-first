@@ -48,7 +48,9 @@ export const GameCurrentScreen = ({
     const change = { ...game, oper }
     pressButton.current = oper
     setDisable(true)
+
     await dispatch(changeGame(change))
+
     setTimeout(() => {
       pressButton.current = ''
       setDisable(false)

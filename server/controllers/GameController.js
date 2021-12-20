@@ -3,14 +3,13 @@ const events = require('events')
 const Game = require('../models/Game')
 const emitter = new events.EventEmitter()
 
+emitter.setMaxListeners(0)
+
 class GameController {
   static async create(req, res) {
     try {
       const game = await Game.create(req.body)
-
-      emitter.emit('game', game)
-
-      return res.json(game._id)
+      res.json(game._id)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -19,7 +18,7 @@ class GameController {
   static async getAll(req, res) {
     try {
       const games = await Game.find({})
-      return res.json(games)
+      res.json(games)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -32,7 +31,7 @@ class GameController {
         res.status(400), json({ message: 'ID не указан' })
       }
       const game = await Game.findById(id)
-      return res.json(game)
+      res.json(game)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -46,10 +45,9 @@ class GameController {
       }
       let game = await Game.findByIdAndUpdate(id, { $set: req.body })
       game = await Game.findById(id)
+      res.json(game)
 
       emitter.emit('game', game)
-
-      return res.json(game)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -62,7 +60,7 @@ class GameController {
         res.status(400), json({ message: 'ID не указан' })
       }
       const game = await Game.findByIdAndDelete(id)
-      return res.json(game)
+      res.json(game)
     } catch (e) {
       res.status(500).json(e)
     }

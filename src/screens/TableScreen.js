@@ -27,12 +27,12 @@ export const TableScreen = ({ route, navigation: { goBack, setOptions } }) => {
         disabled && (
           <HeaderButtons HeaderButtonComponent={AppMaterialCommunityIcons}>
             <Item
-              title="New"
+              title="Edit"
               iconName="file-document-edit"
               onPress={() => setDisabled(false)}
             />
             <Item
-              title="New"
+              title="Delete"
               iconName="delete-forever"
               onPress={() => {
                 onRemove(route.params.table)

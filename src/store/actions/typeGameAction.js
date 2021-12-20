@@ -40,7 +40,7 @@ export const loadTypesGame = () => async (dispatch) => {
   })
 }
 
-export const addTypeGame = async (type) => async (dispatch) => {
+export const addTypeGame = (type) => async (dispatch) => {
   type.id = await MongoDB.create('Type-Games', type)
 
   dispatch({
