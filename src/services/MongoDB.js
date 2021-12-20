@@ -1,6 +1,7 @@
 import io from 'socket.io-client'
 
-const _URL = 'http://192.168.31.226:5000/api'
+const _URL = 'http://192.168.31.226:5000'
+const _API = 'api'
 
 export const socket = io(_URL)
 
@@ -65,7 +66,7 @@ export class MongoDB {
 
   static async get(collection) {
     try {
-      const res = await request(`${_URL}/${collection}`, 'GET')
+      const res = await request(`${_URL}/${_API}/${collection}`, 'GET')
       return res.map(_transform(collection))
     } catch (e) {
       console.log(e)
@@ -75,7 +76,7 @@ export class MongoDB {
 
   static async create(collection, data = {}) {
     try {
-      const res = await request(`${_URL}/${collection}`, 'POST', data)
+      const res = await request(`${_URL}/${_API}/${collection}`, 'POST', data)
       return res
     } catch (e) {
       console.log(e)
@@ -84,7 +85,7 @@ export class MongoDB {
 
   static async delete(collection, id) {
     try {
-      return await request(`${_URL}/${collection}/${id}`, 'DELETE')
+      return await request(`${_URL}/${_API}/${collection}/${id}`, 'DELETE')
     } catch (e) {
       console.log(e)
     }
@@ -92,7 +93,7 @@ export class MongoDB {
 
   static async update(collection, id, data = {}) {
     try {
-      return await request(`${_URL}/${collection}/${id}`, 'PATCH', data)
+      return await request(`${_URL}/${_API}/${collection}/${id}`, 'PATCH', data)
     } catch (e) {
       console.log(e)
     }

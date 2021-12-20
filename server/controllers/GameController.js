@@ -7,9 +7,10 @@ class GameController {
   static async create(req, res) {
     try {
       const game = await Game.create(req.body)
-      res.json(game._id)
 
       emitter.emit('game', game)
+
+      return res.json(game._id)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -18,7 +19,7 @@ class GameController {
   static async getAll(req, res) {
     try {
       const games = await Game.find({})
-      res.json(games)
+      return res.json(games)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -26,8 +27,12 @@ class GameController {
 
   static async getOne(req, res) {
     try {
-      const game = await Game.findById(req.params.id)
-      res.json(game)
+      const { id } = req.params
+      if (!id) {
+        res.status(400), json({ message: 'ID не указан' })
+      }
+      const game = await Game.findById(id)
+      return res.json(game)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -35,11 +40,16 @@ class GameController {
 
   static async update(req, res) {
     try {
-      let game = await Game.findByIdAndUpdate(req.params.id, { $set: req.body })
-      game = await Game.findById(req.params.id)
-      res.json(game)
+      const { id } = req.params
+      if (!id) {
+        res.status(400), json({ message: 'ID не указан' })
+      }
+      let game = await Game.findByIdAndUpdate(id, { $set: req.body })
+      game = await Game.findById(id)
 
       emitter.emit('game', game)
+
+      return res.json(game)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -47,8 +57,12 @@ class GameController {
 
   static async delete(req, res) {
     try {
-      const game = await Game.findByIdAndDelete(req.params.id)
-      res.json(game)
+      const { id } = req.params
+      if (!id) {
+        res.status(400), json({ message: 'ID не указан' })
+      }
+      const game = await Game.findByIdAndDelete(id)
+      return res.json(game)
     } catch (e) {
       res.status(500).json(e)
     }

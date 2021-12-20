@@ -1,10 +1,11 @@
+const { json } = require('express')
 const TypeGame = require('../models/TypeGame')
 
 class TypeGameController {
   static async create(req, res) {
     try {
       const typeGame = await TypeGame.create(req.body)
-      res.json(typeGame._id)
+      return res.json(typeGame._id)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -13,7 +14,7 @@ class TypeGameController {
   static async getAll(req, res) {
     try {
       const typeGames = await TypeGame.find({})
-      res.json(typeGames)
+      return res.json(typeGames)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -21,8 +22,12 @@ class TypeGameController {
 
   static async getOne(req, res) {
     try {
-      const typeGame = await TypeGame.findById(req.params.id)
-      res.json(typeGame)
+      const { id } = req.params
+      if (!id) {
+        res.status(400), json({ message: 'ID не указан' })
+      }
+      const typeGame = await TypeGame.findById(id)
+      return res.json(typeGame)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -30,11 +35,15 @@ class TypeGameController {
 
   static async update(req, res) {
     try {
-      let typeGame = await TypeGame.findByIdAndUpdate(req.params.id, {
+      const { id } = req.params
+      if (!id) {
+        res.status(400), json({ message: 'ID не указан' })
+      }
+      let typeGame = await TypeGame.findByIdAndUpdate(id, {
         $set: req.body,
       })
-      typeGame = await TypeGame.findById(req.params.id)
-      res.json(typeGame)
+      typeGame = await TypeGame.findById(id)
+      return res.json(typeGame)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -42,8 +51,12 @@ class TypeGameController {
 
   static async delete(req, res) {
     try {
-      const typeGame = await TypeGame.findByIdAndDelete(req.params.id)
-      res.json(typeGame)
+      const { id } = req.params
+      if (!id) {
+        res.status(400), json({ message: 'ID не указан' })
+      }
+      const typeGame = await TypeGame.findByIdAndDelete(id)
+      return res.json(typeGame)
     } catch (e) {
       res.status(500).json(e)
     }

@@ -4,7 +4,7 @@ class PlayerController {
   static async create(req, res) {
     try {
       const player = await Player.create(req.body)
-      res.json(player._id)
+      return res.json(player._id)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -13,7 +13,7 @@ class PlayerController {
   static async getAll(req, res) {
     try {
       const players = await Player.find({})
-      res.json(players)
+      return res.json(players)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -21,8 +21,12 @@ class PlayerController {
 
   static async getOne(req, res) {
     try {
-      const player = await Player.findById(req.params.id)
-      res.json(player)
+      const { id } = req.params
+      if (!id) {
+        res.status(400), json({ message: 'ID не указан' })
+      }
+      const player = await Player.findById(id)
+      return res.json(player)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -30,11 +34,15 @@ class PlayerController {
 
   static async update(req, res) {
     try {
-      let player = await Player.findByIdAndUpdate(req.params.id, {
+      const { id } = req.params
+      if (!id) {
+        res.status(400), json({ message: 'ID не указан' })
+      }
+      let player = await Player.findByIdAndUpdate(id, {
         $set: req.body,
       })
-      player = await Player.findById(req.params.id)
-      res.json(player)
+      player = await Player.findById(id)
+      return res.json(player)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -42,8 +50,12 @@ class PlayerController {
 
   static async delete(req, res) {
     try {
-      const player = await Player.findByIdAndDelete(req.params.id)
-      res.json(player)
+      const { id } = req.params
+      if (!id) {
+        res.status(400), json({ message: 'ID не указан' })
+      }
+      const player = await Player.findByIdAndDelete(id)
+      return res.json(player)
     } catch (e) {
       res.status(500).json(e)
     }
