@@ -7,7 +7,7 @@ import {
   AppIonicons,
   AppMaterialCommunityIcons,
 } from '../components/AppHeaderIcon'
-import { addPlayer, removePlayer } from '../store/actions/playerAction'
+import { addPlayer, deletePlayer } from '../store/actions/playerAction'
 import { Player } from '../components/Player'
 import { CreatePlayerModal } from '../components/CreatePlayerModal'
 import { MyFunc } from '../app_func'
@@ -62,7 +62,7 @@ export const PlayersScreen = ({
         {
           text: 'Удалить',
           onPress: () => {
-            dispatch(removePlayer(player))
+            dispatch(deletePlayer(player))
             navigate('PlayersStack')
           },
         },

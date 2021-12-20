@@ -1,32 +1,43 @@
+require('dotenv').config()
+
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const config = require('./config')
-const port = process.env.PORT || config.port
-const cors = require('cors')
+const PORT = process.env.PORT
 
-mongoose
-  .connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error(err))
+const start = async () => {
+  try {
+    await mongoose
+      .connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      .then(() => console.log('MongoDB connected'))
+    server.listen(PORT, () => {
+      console.log(`Server has been started on port ${PORT}`)
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
 
 const {
-  routerType,
-  routerTable,
-  routerPlayer,
-  routerGame,
+  typeGameRouter,
+  tableRouter,
+  playerRouter,
+  gameRouter,
 } = require('./routes')
 
-app.use(bodyParser.json())
+app.use(express.json())
 app.use(cors())
 
-app.use('/types', routerType)
-app.use('/tables', routerTable)
-app.use('/players', routerPlayer)
-app.use('/games', routerGame)
+app.use('/api', typeGameRouter)
+app.use('/api', tableRouter)
+app.use('/api', playerRouter)
+app.use('/api', gameRouter)
 
 io.on('connection', (socket) => {
   console.log(`a user connected ${socket.id}`)
@@ -39,8 +50,8 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('add table', table)
   })
 
-  socket.on('remove table', (id) => {
-    socket.broadcast.emit('remove table', id)
+  socket.on('delete table', (id) => {
+    socket.broadcast.emit('delete table', id)
   })
 
   socket.on('edit table', (table) => {
@@ -51,8 +62,8 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('add player', player)
   })
 
-  socket.on('remove player', (id) => {
-    socket.broadcast.emit('remove player', id)
+  socket.on('delete player', (id) => {
+    socket.broadcast.emit('delete player', id)
   })
 
   socket.on('edit player', (player) => {
@@ -63,8 +74,8 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('add typeGame', type)
   })
 
-  socket.on('remove typeGame', (id) => {
-    socket.broadcast.emit('remove typeGame', id)
+  socket.on('delete typeGame', (id) => {
+    socket.broadcast.emit('delete typeGame', id)
   })
 
   socket.on('edit typeGame', (type) => {
@@ -75,8 +86,8 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('add Game', game)
   })
 
-  socket.on('remove Game', (id) => {
-    socket.broadcast.emit('remove Game', id)
+  socket.on('delete Game', (id) => {
+    socket.broadcast.emit('delete Game', id)
   })
 
   socket.on('change Game', (game) => {
@@ -84,6 +95,4 @@ io.on('connection', (socket) => {
   })
 })
 
-server.listen(port, () => {
-  console.log(`Server has been started on port ${config.port}`)
-})
+start()

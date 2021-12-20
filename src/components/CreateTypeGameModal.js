@@ -104,8 +104,8 @@ export const CreateTypeGameModal = ({ visible, onCancel, onSave }) => {
     const type = {
       name,
       desc,
-      games: parseInt(games, 10),
-      balls: parseInt(balls, 10),
+      games: +games,
+      balls: +balls,
     }
     onSave(type)
     clearState()

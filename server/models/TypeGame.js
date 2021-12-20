@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
 //Описывается структура коллекции type
-const typeSchema = new Schema(
+const TypeGame = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -24,4 +23,4 @@ const typeSchema = new Schema(
   { versionKey: false }
 )
 
-module.exports = mongoose.model('Type', typeSchema, 'types')
+module.exports = mongoose.model('TypeGame', TypeGame, 'type-games')

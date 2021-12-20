@@ -2,7 +2,7 @@ import {
   ADD_TYPE_GAME,
   EDIT_TYPE_GAME,
   LOAD_TYPES_GAME,
-  REMOVE_TYPE_GAME,
+  DELETE_TYPE_GAME,
 } from '../types'
 
 const initialState = {
@@ -20,7 +20,7 @@ const handlers = {
     ...state,
     typesGame: [{ ...payload }, ...state.typesGame],
   }),
-  [REMOVE_TYPE_GAME]: (state, { payload }) => ({
+  [DELETE_TYPE_GAME]: (state, { payload }) => ({
     ...state,
     typesGame: state.typesGame.filter((type) => type.id !== payload),
   }),
@@ -40,7 +40,7 @@ const handlers = {
   DEFAULT: (state) => state,
 }
 
-export const typeReducer = (state = initialState, action) => {
+export const typeGameReducer = (state = initialState, action) => {
   const handler = handlers[action.type] || handlers.DEFAULT
   return handler(state, action)
 }

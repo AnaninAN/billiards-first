@@ -3,7 +3,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { View, StyleSheet, FlatList, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { addTable, removeTable } from '../store/actions/tableAction'
+import { addTable, deleteTable } from '../store/actions/tableAction'
 import { Table } from '../components/Table'
 import { CreateTableModal } from '../components/CreateTableModal'
 
@@ -59,7 +59,7 @@ export const TablesScreen = ({
       {
         text: 'Удалить',
         onPress: () => {
-          dispatch(removeTable(table))
+          dispatch(deleteTable(table))
           navigate('TablesStack')
         },
       },

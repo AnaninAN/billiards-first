@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
 //Описывается структура коллекции player
-const playerSchema = new Schema(
+const Player = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -24,4 +23,4 @@ const playerSchema = new Schema(
   { versionKey: false }
 )
 
-module.exports = mongoose.model('Player', playerSchema, 'players')
+module.exports = mongoose.model('Player', Player, 'players')

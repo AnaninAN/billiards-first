@@ -1,17 +1,17 @@
 import io from 'socket.io-client'
 
-const _URL = 'http://192.168.31.226:5000'
+const _URL = 'http://192.168.31.226:5000/api'
 
 export const socket = io(_URL)
 
 const _transform = (collection) => {
-  if (collection === 'Types') {
-    return (type) => ({
-      id: type._id,
-      name: type.name,
-      desc: type.desc,
-      games: type.games,
-      balls: type.balls,
+  if (collection === 'Type-Games') {
+    return (typeGames) => ({
+      id: typeGames._id,
+      name: typeGames.name,
+      desc: typeGames.desc,
+      games: typeGames.games,
+      balls: typeGames.balls,
     })
   }
   if (collection === 'Tables') {
@@ -65,15 +65,15 @@ export class MongoDB {
 
   static async get(collection) {
     try {
-      const types = await request(`${_URL}/${collection}`, 'GET')
-      return types.map(_transform(collection))
+      const res = await request(`${_URL}/${collection}`, 'GET')
+      return res.map(_transform(collection))
     } catch (e) {
       console.log(e)
       throw e
     }
   }
 
-  static async post(collection, data = {}) {
+  static async create(collection, data = {}) {
     try {
       const res = await request(`${_URL}/${collection}`, 'POST', data)
       return res
@@ -82,7 +82,7 @@ export class MongoDB {
     }
   }
 
-  static async remove(collection, id) {
+  static async delete(collection, id) {
     try {
       return await request(`${_URL}/${collection}/${id}`, 'DELETE')
     } catch (e) {
@@ -90,7 +90,7 @@ export class MongoDB {
     }
   }
 
-  static async patch(collection, id, data = {}) {
+  static async update(collection, id, data = {}) {
     try {
       return await request(`${_URL}/${collection}/${id}`, 'PATCH', data)
     } catch (e) {

@@ -1,4 +1,4 @@
-import { ADD_PLAYER, EDIT_PLAYER, LOAD_PLAYERS, REMOVE_PLAYER } from '../types'
+import { ADD_PLAYER, EDIT_PLAYER, LOAD_PLAYERS, DELETE_PLAYER } from '../types'
 
 import { MongoDB, socket } from '../../services/MongoDB'
 
@@ -19,9 +19,9 @@ export const loadPlayers = () => async (dispatch) => {
   })
 
   //Удаление игрока
-  socket.on('remove player', (id) => {
+  socket.on('delete player', (id) => {
     dispatch({
-      type: REMOVE_PLAYER,
+      type: DELETE_PLAYER,
       payload: id,
     })
   })
@@ -37,7 +37,7 @@ export const loadPlayers = () => async (dispatch) => {
 
 export const addPlayer = (player) => async (dispatch) => {
   player.active = false
-  player.id = await MongoDB.post('Players', player)
+  player.id = await MongoDB.create('Players', player)
 
   dispatch({
     type: ADD_PLAYER,
@@ -47,19 +47,19 @@ export const addPlayer = (player) => async (dispatch) => {
   socket.emit('add player', player)
 }
 
-export const removePlayer = (player) => async (dispatch) => {
-  await MongoDB.remove('Players', player.id)
+export const deletePlayer = (player) => async (dispatch) => {
+  await MongoDB.delete('Players', player.id)
 
   dispatch({
-    type: REMOVE_PLAYER,
+    type: DELETE_PLAYER,
     payload: player.id,
   })
 
-  socket.emit('remove player', player.id)
+  socket.emit('delete player', player.id)
 }
 
 export const editPlayer = (player) => async (dispatch) => {
-  await MongoDB.patch('Players', player.id, player)
+  await MongoDB.update('Players', player.id, player)
 
   dispatch({
     type: EDIT_PLAYER,

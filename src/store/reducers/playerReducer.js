@@ -1,4 +1,4 @@
-import { ADD_PLAYER, EDIT_PLAYER, LOAD_PLAYERS, REMOVE_PLAYER } from '../types'
+import { ADD_PLAYER, EDIT_PLAYER, LOAD_PLAYERS, DELETE_PLAYER } from '../types'
 
 const initialState = {
   players: [],
@@ -15,7 +15,7 @@ const handlers = {
     ...state,
     players: [{ ...payload }, ...state.players],
   }),
-  [REMOVE_PLAYER]: (state, { payload }) => ({
+  [DELETE_PLAYER]: (state, { payload }) => ({
     ...state,
     players: state.players.filter((player) => player.id !== payload),
   }),

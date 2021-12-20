@@ -1,11 +1,11 @@
-const routerType = require('./type')
-const routerTable = require('./table')
-const routerPlayer = require('./player')
-const routerGame = require('./game')
+const typeGameRouter = require('./typeGameRouter')
+const tableRouter = require('./tableRouter')
+const playerRouter = require('./playerRouter')
+const gameRouter = require('./gameRouter')
 
 module.exports = {
-  routerType,
-  routerTable,
-  routerPlayer,
-  routerGame,
+  typeGameRouter,
+  tableRouter,
+  playerRouter,
+  gameRouter,
 }

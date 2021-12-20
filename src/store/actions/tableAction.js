@@ -1,4 +1,4 @@
-import { ADD_TABLE, EDIT_TABLE, LOAD_TABLES, REMOVE_TABLE } from '../types'
+import { ADD_TABLE, EDIT_TABLE, LOAD_TABLES, DELETE_TABLE } from '../types'
 
 import { MongoDB, socket } from '../../services/MongoDB'
 
@@ -19,9 +19,9 @@ export const loadTables = () => async (dispatch) => {
   })
 
   //Удаление стола
-  socket.on('remove table', (id) => {
+  socket.on('delete table', (id) => {
     dispatch({
-      type: REMOVE_TABLE,
+      type: DELETE_TABLE,
       payload: id,
     })
   })
@@ -37,7 +37,7 @@ export const loadTables = () => async (dispatch) => {
 
 export const addTable = (table) => async (dispatch) => {
   table.active = false
-  table.id = await MongoDB.post('Tables', table)
+  table.id = await MongoDB.create('Tables', table)
 
   dispatch({
     type: ADD_TABLE,
@@ -47,19 +47,19 @@ export const addTable = (table) => async (dispatch) => {
   socket.emit('add table', table)
 }
 
-export const removeTable = (table) => async (dispatch) => {
-  await MongoDB.remove('Tables', table.id)
+export const deleteTable = (table) => async (dispatch) => {
+  await MongoDB.delete('Tables', table.id)
 
   dispatch({
-    type: REMOVE_TABLE,
+    type: DELETE_TABLE,
     payload: table.id,
   })
 
-  socket.emit('remove table', table.id)
+  socket.emit('delete table', table.id)
 }
 
 export const editTable = (table) => async (dispatch) => {
-  await MongoDB.patch('Tables', table.id, table)
+  await MongoDB.update('Tables', table.id, table)
 
   dispatch({
     type: EDIT_TABLE,

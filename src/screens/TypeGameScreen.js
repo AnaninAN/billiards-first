@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 
 import { TypeGameContent } from '../components/CreateTypeGameModal'
 import { AppMaterialCommunityIcons } from '../components/AppHeaderIcon'
-import { editTypeGame } from '../store/actions/typeAction'
+import { editTypeGame } from '../store/actions/typeGameAction'
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
@@ -33,12 +33,12 @@ export const TypeGameScreen = ({
         disabled && (
           <HeaderButtons HeaderButtonComponent={AppMaterialCommunityIcons}>
             <Item
-              title="New"
+              title="Edit"
               iconName="file-document-edit"
               onPress={() => setDisabled(false)}
             />
             <Item
-              title="New"
+              title="Delete"
               iconName="delete-forever"
               onPress={() => {
                 onRemove(route.params.type)

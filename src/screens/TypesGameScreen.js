@@ -8,7 +8,7 @@ import {
   AppIonicons,
   AppMaterialCommunityIcons,
 } from '../components/AppHeaderIcon'
-import { addTypeGame, removeTypeGame } from '../store/actions/typeAction'
+import { addTypeGame, deleteTypeGame } from '../store/actions/typeGameAction'
 import { TypeGame } from '../components/TypeGame'
 import { CreateTypeGameModal } from '../components/CreateTypeGameModal'
 
@@ -59,14 +59,14 @@ export const TypesGameScreen = ({
       {
         text: 'Удалить',
         onPress: () => {
-          dispatch(removeTypeGame(type))
+          dispatch(deleteTypeGame(type))
           navigate('TypesGameStack')
         },
       },
     ])
   }
 
-  const typesGame = useSelector((state) => state.type.typesGame)
+  const typesGame = useSelector((state) => state.typeGame.typesGame)
 
   return (
     <Layout style={styles.wrap} level="2">

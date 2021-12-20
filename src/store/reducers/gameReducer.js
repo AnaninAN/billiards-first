@@ -1,4 +1,4 @@
-import { ADD_GAME, CHANGE_GAME, LOAD_GAMES, REMOVE_GAME } from '../types'
+import { ADD_GAME, CHANGE_GAME, LOAD_GAMES, DELETE_GAME } from '../types'
 
 const initialState = {
   allGames: [],
@@ -42,7 +42,7 @@ const handlers = {
       gamesComplited: newAllGames.filter((game) => !game.active),
     }
   },
-  [REMOVE_GAME]: (state, { payload }) => ({
+  [DELETE_GAME]: (state, { payload }) => ({
     ...state,
     allGames: state.allGames.filter(({ id }) => id !== payload),
     gamesCurrent: state.gamesCurrent.filter(({ id }) => id !== payload),

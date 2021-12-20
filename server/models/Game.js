@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
-//Описывается структура коллекции player
-const gameSchema = new Schema(
+//Описывается структура коллекции game
+const Game = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -88,4 +87,4 @@ const gameSchema = new Schema(
   { versionKey: false }
 )
 
-module.exports = mongoose.model('Game', gameSchema, 'games')
+module.exports = mongoose.model('Game', Game, 'games')

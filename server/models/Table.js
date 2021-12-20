@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
 //Описывается структура коллекции table
-const tableSchema = new Schema(
+const Table = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -16,4 +15,4 @@ const tableSchema = new Schema(
   { versionKey: false }
 )
 
-module.exports = mongoose.model('Table', tableSchema, 'tables')
+module.exports = mongoose.model('Table', Table, 'tables')

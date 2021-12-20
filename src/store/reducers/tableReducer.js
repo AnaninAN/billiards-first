@@ -1,4 +1,4 @@
-import { ADD_TABLE, EDIT_TABLE, LOAD_TABLES, REMOVE_TABLE } from '../types'
+import { ADD_TABLE, EDIT_TABLE, LOAD_TABLES, DELETE_TABLE } from '../types'
 
 const initialState = {
   tables: [],
@@ -15,7 +15,7 @@ const handlers = {
     ...state,
     tables: [{ ...payload }, ...state.tables],
   }),
-  [REMOVE_TABLE]: (state, { payload }) => ({
+  [DELETE_TABLE]: (state, { payload }) => ({
     ...state,
     tables: state.tables.filter(({ id }) => id !== payload),
   }),

@@ -32,7 +32,7 @@ export const CreateGameModal = ({ visible, onCancel, onSave }) => {
     setSelectedIndexPlayer2(new IndexPath(0))
   }
 
-  const types = useSelector((state) => state.type.typesGame)
+  const types = useSelector((state) => state.typeGame.typesGame)
   const players = useSelector((state) => state.player.players)
 
   const dataTypes = [

@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-import { ADD_GAME, CHANGE_GAME, LOAD_GAMES, REMOVE_GAME } from '../types'
+import { ADD_GAME, CHANGE_GAME, LOAD_GAMES, DELETE_GAME } from '../types'
 
 import { MongoDB, socket } from '../../services/MongoDB'
 import { MyFunc } from '../../app_func'
@@ -22,9 +22,9 @@ export const loadGames = () => async (dispatch) => {
   })
 
   //Удаление игры
-  socket.on('remove Game', (id) => {
+  socket.on('delete Game', (id) => {
     dispatch({
-      type: REMOVE_GAME,
+      type: DELETE_GAME,
       payload: id,
     })
   })
@@ -45,7 +45,7 @@ export const changeGame = (game) => async (dispatch) => {
   } else {
     payload = game
   }
-  await MongoDB.patch('Games', game.id, payload)
+  await MongoDB.update('Games', game.id, payload)
 
   dispatch({
     type: CHANGE_GAME,
@@ -59,7 +59,7 @@ export const addGame = (game) => async (dispatch) => {
   game.date = moment(new Date()).format('DD.MM.YYYY')
   game.active = true
   game.history = []
-  game.id = await MongoDB.post('Games', game)
+  game.id = await MongoDB.create('Games', game)
 
   dispatch({
     type: ADD_GAME,
@@ -69,13 +69,13 @@ export const addGame = (game) => async (dispatch) => {
   socket.emit('add Game', game)
 }
 
-export const removeGame = (game) => async (dispatch) => {
-  await MongoDB.remove('Games', game.id)
+export const deleteGame = (game) => async (dispatch) => {
+  await MongoDB.delete('Games', game.id)
 
   dispatch({
-    type: REMOVE_GAME,
+    type: DELETE_GAME,
     payload: game.id,
   })
 
-  socket.emit('remove Game', game.id)
+  socket.emit('delete Game', game.id)
 }

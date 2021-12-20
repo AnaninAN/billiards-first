@@ -2,13 +2,13 @@ import {
   ADD_TYPE_GAME,
   EDIT_TYPE_GAME,
   LOAD_TYPES_GAME,
-  REMOVE_TYPE_GAME,
+  DELETE_TYPE_GAME,
 } from '../types'
 
 import { MongoDB, socket } from '../../services/MongoDB'
 
 export const loadTypesGame = () => async (dispatch) => {
-  const types = await MongoDB.get('Types')
+  const types = await MongoDB.get('Type-Games')
 
   dispatch({
     type: LOAD_TYPES_GAME,
@@ -24,9 +24,9 @@ export const loadTypesGame = () => async (dispatch) => {
   })
 
   //Удаление вида игры
-  socket.on('remove typeGame', (id) => {
+  socket.on('delete typeGame', (id) => {
     dispatch({
-      type: REMOVE_TYPE_GAME,
+      type: DELETE_TYPE_GAME,
       payload: id,
     })
   })
@@ -40,8 +40,8 @@ export const loadTypesGame = () => async (dispatch) => {
   })
 }
 
-export const addTypeGame = async (type) => async () => {
-  type.id = await MongoDB.post('Types', type)
+export const addTypeGame = async (type) => async (dispatch) => {
+  type.id = await MongoDB.create('Type-Games', type)
 
   dispatch({
     type: ADD_TYPE_GAME,
@@ -51,19 +51,19 @@ export const addTypeGame = async (type) => async () => {
   socket.emit('add typeGame', type)
 }
 
-export const removeTypeGame = (type) => async () => {
-  await MongoDB.remove('Types', type.id)
+export const deleteTypeGame = (type) => async (dispatch) => {
+  await MongoDB.delete('Type-Games', type.id)
 
   dispatch({
-    type: REMOVE_TYPE_GAME,
+    type: DELETE_TYPE_GAME,
     payload: id,
   })
 
-  socket.emit('remove typeGame', type.id)
+  socket.emit('delete typeGame', type.id)
 }
 
-export const editTypeGame = (type) => async () => {
-  await MongoDB.patch('Types', type.id, type)
+export const editTypeGame = (type) => async (dispatch) => {
+  await MongoDB.update('Type-Games', type.id, type)
 
   dispatch({
     type: EDIT_TYPE_GAME,

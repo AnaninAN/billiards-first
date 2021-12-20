@@ -12,9 +12,9 @@ import {
   loadGames,
   addGame,
   changeGame,
-  removeGame,
+  deleteGame,
 } from '../store/actions/gameAction'
-import { loadTypesGame } from '../store/actions/typeAction'
+import { loadTypesGame } from '../store/actions/typeGameAction'
 import { loadPlayers, editPlayer } from '../store/actions/playerAction'
 import { loadTables, editTable } from '../store/actions/tableAction'
 import { Game } from '../components/Game'
@@ -84,7 +84,7 @@ export const GamesCurrentScreen = ({
         {
           text: 'Удалить',
           onPress: () => {
-            dispatch(removeGame(game))
+            dispatch(deleteGame(game))
             navigate('GamesCurrentStack')
             //Освобождение стола, если назначен
             if (game.table) {
