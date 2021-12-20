@@ -14,13 +14,13 @@ export const App = () => {
 
   useEffect(() => {
     subscribe()
-  })
-
-  const eventSource = new EventSource(
-    `${_URL}/games/${params.scoreboard}/${params.id}`
-  )
+  }, [])
 
   const subscribe = async () => {
+    const eventSource = new EventSource(
+      `${_URL}/games/${params.scoreboard}/${params.id}`
+    )
+
     eventSource.onmessage = function (event) {
       const data = JSON.parse(event.data)
 

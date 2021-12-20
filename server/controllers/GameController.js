@@ -19,6 +19,8 @@ class GameController {
     try {
       const games = await Game.find({})
       res.json(games)
+
+      emitter.emit('game', game)
     } catch (e) {
       res.status(500).json(e)
     }
