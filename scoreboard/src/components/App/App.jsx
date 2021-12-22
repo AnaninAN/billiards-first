@@ -17,13 +17,15 @@ export const App = () => {
   }, [])
 
   const subscribe = async () => {
+    const eventSourceRestart = new EventSource(
+      `${_URL}/games/${params.scoreboard}/restart/${params.id}`
+    )
     const eventSource = new EventSource(
       `${_URL}/games/${params.scoreboard}/${params.id}`
     )
 
     eventSource.onmessage = function (event) {
       const data = JSON.parse(event.data)
-
       setGame(data)
     }
   }

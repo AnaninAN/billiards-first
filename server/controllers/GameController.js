@@ -19,8 +19,6 @@ class GameController {
     try {
       const games = await Game.find({})
       res.json(games)
-
-      emitter.emit('game', game)
     } catch (e) {
       res.status(500).json(e)
     }
@@ -68,6 +66,18 @@ class GameController {
     }
   }
 
+  static async scoreboardRestart(req, res) {
+    const idTable = req.params.id
+    const games = await Game.find({})
+    const game = games.find(
+      ({ active, table: { id } }) => id === idTable && active
+    )
+
+    if (game) {
+      emitter.emit('game', game)
+    }
+  }
+
   static async getScoreboardOne(req, res) {
     res.writeHead(200, {
       Connection: 'keep-alive',
@@ -80,7 +90,6 @@ class GameController {
         res.write(`data: ${JSON.stringify(game)} \n\n`)
         return
       }
-      res.write(`data: ${{}} \n\n`)
     })
   }
 }
