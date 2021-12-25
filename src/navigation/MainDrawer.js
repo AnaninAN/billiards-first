@@ -5,9 +5,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { DrawerContent } from '../components/DrawerContent'
 
 import { GamesBottomTub } from './games/GamesBottomTub'
-import { TypeGameModal } from './types/TypeGameModal'
-import { PlayerModal } from './players/PalyerModal'
-import { TableModal } from './tables/TableModal'
+import { SettingsBottomTub } from './settings/SettingsBottomTub'
 import { AboutStack } from './about/AboutStack'
 
 import { default as theme } from '../theme_eva.json'
@@ -31,46 +29,26 @@ export const MainDrawer = () => {
       drawerContent={(props) => <DrawerContent {...props} />}
     >
       <Screen
-        name="Main"
+        name="Games"
         component={GamesBottomTub}
         options={{
-          title: 'Главная',
-          drawerIcon: ({ color }) => (
-            <Ionicons name="home-outline" size={22} color={color} />
-          ),
-        }}
-      />
-      <Screen
-        name="TypesGame"
-        component={TypeGameModal}
-        options={{
-          title: 'Виды игр',
-          drawerIcon: ({ color }) => (
-            <Ionicons name="game-controller-outline" size={22} color={color} />
-          ),
-        }}
-      />
-      <Screen
-        name="Players"
-        component={PlayerModal}
-        options={{
-          title: 'Игроки',
-          drawerIcon: ({ color }) => (
-            <Ionicons name="people-outline" size={22} color={color} />
-          ),
-        }}
-      />
-      <Screen
-        name="Tables"
-        component={TableModal}
-        options={{
-          title: 'Столы',
+          title: 'Игры',
           drawerIcon: ({ color }) => (
             <MaterialCommunityIcons
-              name="table-furniture"
-              size={22}
+              name="billiards-rack"
               color={color}
+              size={24}
             />
+          ),
+        }}
+      />
+      <Screen
+        name="Settings"
+        component={SettingsBottomTub}
+        options={{
+          title: 'Настройки',
+          drawerIcon: ({ color }) => (
+            <Ionicons name="settings-outline" size={22} color={color} />
           ),
         }}
       />
