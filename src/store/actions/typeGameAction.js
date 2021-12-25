@@ -56,7 +56,7 @@ export const deleteTypeGame = (type) => async (dispatch) => {
 
   dispatch({
     type: DELETE_TYPE_GAME,
-    payload: id,
+    payload: type.id,
   })
 
   socket.emit('delete typeGame', type.id)
