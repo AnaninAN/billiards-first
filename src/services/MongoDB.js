@@ -4,6 +4,58 @@ const _URL = 'http://192.168.31.226:5000'
 const _API = 'api'
 
 export const socket = io(_URL)
+export class MongoDB {
+  static HEADERS = { 'Content-Type': 'application/json' }
+
+  static async get(collection) {
+    try {
+      const res = await request(`${_URL}/${_API}/${collection}`, 'GET')
+      return res.map(_transform(collection))
+    } catch (e) {
+      console.log(e)
+      throw e
+    }
+  }
+
+  static async create(collection, data = {}) {
+    try {
+      const res = await request(`${_URL}/${_API}/${collection}`, 'POST', data)
+      return res
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  static async delete(collection, id) {
+    try {
+      return await request(`${_URL}/${_API}/${collection}/${id}`, 'DELETE')
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  static async update(collection, id, data = {}) {
+    try {
+      return await request(`${_URL}/${_API}/${collection}/${id}`, 'PATCH', data)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+async function request(url, method = 'GET', data) {
+  const config = {
+    method,
+    headers: MongoDB.HEADERS,
+  }
+
+  if (method === 'POST' || method === 'PATCH') {
+    config.body = JSON.stringify(data)
+  }
+
+  const response = await fetch(url, config)
+  return await response.json()
+}
 
 const _transform = (collection) => {
   if (collection === 'Type-Games') {
@@ -59,57 +111,4 @@ const _transform = (collection) => {
       },
     })
   }
-}
-
-export class MongoDB {
-  static HEADERS = { 'Content-Type': 'application/json' }
-
-  static async get(collection) {
-    try {
-      const res = await request(`${_URL}/${_API}/${collection}`, 'GET')
-      return res.map(_transform(collection))
-    } catch (e) {
-      console.log(e)
-      throw e
-    }
-  }
-
-  static async create(collection, data = {}) {
-    try {
-      const res = await request(`${_URL}/${_API}/${collection}`, 'POST', data)
-      return res
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  static async delete(collection, id) {
-    try {
-      return await request(`${_URL}/${_API}/${collection}/${id}`, 'DELETE')
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  static async update(collection, id, data = {}) {
-    try {
-      return await request(`${_URL}/${_API}/${collection}/${id}`, 'PATCH', data)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-}
-
-async function request(url, method = 'GET', data) {
-  const config = {
-    method,
-    headers: MongoDB.HEADERS,
-  }
-
-  if (method === 'POST' || method === 'PATCH') {
-    config.body = JSON.stringify(data)
-  }
-
-  const response = await fetch(url, config)
-  return await response.json()
 }
